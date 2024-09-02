@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from rest_framework import viewsets
+from .serializer import LearningMethodsSerializer
+from .models import LearningMethods
 import json
 
 # Create your views here.
@@ -27,3 +30,9 @@ def profile(request):
 
 
     return render(request, 'profile.html', context)
+
+def LearningMethodsView(viewsets.ModelViewSet):
+    serializer_class=LearningMethodsSerializer
+    queryset=LearningMethods.objects.all()
+    
+    

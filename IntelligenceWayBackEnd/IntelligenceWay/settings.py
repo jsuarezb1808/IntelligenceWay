@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     "social_django",
     'IntelligenceWay',
+    'route'
 ]
 
 
