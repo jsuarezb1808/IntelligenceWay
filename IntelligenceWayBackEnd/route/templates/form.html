@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{%block content%}
+    {% if form.errors %}
+                <ul id="errors">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3 text-center">
+                    <label for="">ID</label>
+                    <input type="text" readonly name="usuario" value="{{usuario.id}}"><br>
+                    <label for="">1-¿Qué tan frecuentemente usas libros, papers y artículos para estudiar?</label>
+                    <select name="q1">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                    <label for="">2-¿Qué tan frecuentemente usas audiolibros, podcasts y contenido de audio en general para estudiar?</label>
+                    <select name="q2">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                      <label for="">3-¿Qué tan frecuentemente usas videos, documentales o listas de reproducción para estudiar?</label>
+                      <select name="q3">
+                      <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                    <label for="">4-¿Cuánto tiempo dedicas a estudiar?</label>
+                    <select name="q4">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                      <label for="">5-¿Qué tan frecuentemente consumes contenido como historias, libros o novelas en tu tiempo libre?</label>
+                    <select name="q5">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                    <label for="">6-¿Qué tan frecuentemente escuchas podcasts, programas de entrevista o audiolibros en tu tiempo libre?</label>
+                    <select name="q6">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                      <label for="">7-¿Qué tan frecuentemente ves contenido en páginas como YouTube, Instagram, TikTok, etc.?</label>
+                    <select name="q7">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                    <label for="">8-¿Cuánto tiempo dedicas a tus pasatiempos?</label>
+                    <select name="q8">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select><br>
+                
+                <button type="submit">Enviar</button>
+              </div>
+            </form>
+{% endblock %}

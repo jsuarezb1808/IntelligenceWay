@@ -17,7 +17,7 @@ class formularioAprendizajeUsuario(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     q1 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     q2 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q3 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q3 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)]) 
     q4 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     q5 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
     q6 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])

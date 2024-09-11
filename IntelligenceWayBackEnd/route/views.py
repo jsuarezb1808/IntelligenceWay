@@ -8,6 +8,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import rutaAprendizaje
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from .forms import AprendizajeForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 # Create your views here.
 
 class IndexView(View):
@@ -42,17 +45,18 @@ class LoginView(View):
     template_success = "base.html"
     
     def get(self, request): 
-        form = AuthenticationForm() 
-        viewData = {}
-        viewData["form"] = form
-        return render(request, self.template_name, viewData)
+        if not request.user.is_authenticated:
+            form = AuthenticationForm() 
+            viewData = {}
+            viewData["form"] = form
+            return render(request, self.template_name, viewData)
+        return render(request, self.template_success, viewData)
     
     def post(self, request):
         form = AuthenticationForm(data=request.POST) 
         viewData = {}
         viewData["form"] = form
         if form.is_valid(): 
-            print("wtf")
             login(request, form.get_user()) 
             return render(request, self.template_success)
         else:
@@ -77,5 +81,31 @@ class LogoutView(View):
             return render(request, self.template_name)
         else:
             return render(request, self.template_name)
+
+
+class FormularioView(View):
+    template_name = "form.html"
+    template_success = "base.html"
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = AprendizajeForm()
+            viewData = {}
+            viewData["form"] = form
+            viewData["usuario"] = request.user
+            return render(request, self.template_name, viewData)
+        else:
+            return redirect("index")
     
-    
+    def post(self, request):
+        if request.user.is_authenticated:
+            form = AprendizajeForm(request.POST)
+            viewData = {}
+            viewData["form"] = form
+            if form.is_valid(): 
+                form.save()
+                return render(request, self.template_success)
+            else:
+                form = AprendizajeForm()
+                return render(request, self.template_name, viewData)
+        else:
+            return redirect("index")
