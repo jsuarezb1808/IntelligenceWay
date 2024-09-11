@@ -8,6 +8,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import rutaAprendizaje
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
+from .models import LearningPreferences
+from .forms import LearningPreferencesForm
 # Create your views here.
 
 class IndexView(View):
@@ -78,4 +82,17 @@ class LogoutView(View):
         else:
             return render(request, self.template_name)
     
+class PreferencesUpdateView(UpdateView):
+    model = LearningPreferences
+    form_class = LearningPreferencesForm
+    template_name = 'preferences.html'
     
+    # Esto asegura que el formulario siempre se rellene con las preferencias del usuario actual
+    def get_object(self, queryset=None):
+        # Si las preferencias no existen, las crea
+        obj, created = LearningPreferences.objects.get_or_create(user=self.request.user)
+        return obj
+
+    # Redirigir después de guardar
+    def get_success_url(self):
+        return reverse_lazy('index')  # Cambia esto a donde desees redirigir después de guardar

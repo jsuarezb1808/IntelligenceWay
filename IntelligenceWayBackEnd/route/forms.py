@@ -1,5 +1,6 @@
 from django import forms
 from .models import rutaAprendizaje
+from .models import LearningPreferences
 
 """
 class UsuarioForm(forms.ModelForm):
@@ -22,4 +23,13 @@ class UsuarioForm(forms.ModelForm):
 class AprendizajeForm(forms.ModelForm):
     class Meta:
         model = rutaAprendizaje
+        fields = ['title','description']
+
+
+
+class LearningPreferencesForm(forms.ModelForm):
+    class Meta:
+        model = LearningPreferences
+        fields = ['preferred_language', 'learning_style']
+
         

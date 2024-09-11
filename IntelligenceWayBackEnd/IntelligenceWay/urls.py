@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from route.views import RegisterView, LoginView, LogoutView, IndexView
+from route.views import RegisterView, LoginView, LogoutView, IndexView,PreferencesUpdateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +23,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name="registro"),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('preferences/', PreferencesUpdateView.as_view(), name='update_preferences'),
+
     
 ]

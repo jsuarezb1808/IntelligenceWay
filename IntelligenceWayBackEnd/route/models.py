@@ -25,3 +25,23 @@ class formularioAprendizajeUsuario(models.Model):
     q8 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     update_at= models.DateTimeField(auto_now=True)
+
+
+
+class LearningPreferences(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
+    preferred_language = models.CharField(
+        max_length=50,
+        choices=[('EN', 'English'), ('ES', 'Spanish')],
+        default='ES'
+    )
+    learning_style = models.CharField(
+        max_length=50,
+        choices=[('video', 'Video'), ('text', 'Text'), ('curso', 'Curso'),('audio','Audio')],
+        default='text'
+    )
+
+    
+
+    def __str__(self):
+        return f"{self.user.username}'s Preferences"
