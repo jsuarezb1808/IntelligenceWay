@@ -93,6 +93,9 @@ class ContenidoEducacion(models.Model):
         :return: QuerySet con todos los objetos ContenidoEducacion que coincidan con el tipo de interés
         """
         return cls.objects.filter(tipo_interes=tipo_interes)
+    
+    def prueba():
+        return print('si funciona')
 
 
 
