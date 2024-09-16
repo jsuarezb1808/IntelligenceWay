@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from route.views import RegisterView, LoginView, LogoutView, IndexView,PreferencesUpdateView
+from route.views import RegisterView, LoginView, LogoutView, IndexView,PreferencesUpdateView,iniciar_nueva_ruta,update_preferences
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +24,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('preferences/', PreferencesUpdateView.as_view(), name='update_preferences'),
+    path('iniciar-nueva-ruta/', iniciar_nueva_ruta, name='iniciar_nueva_ruta'),
 
     
 ]

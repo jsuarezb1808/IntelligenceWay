@@ -30,6 +30,6 @@ class AprendizajeForm(forms.ModelForm):
 class LearningPreferencesForm(forms.ModelForm):
     class Meta:
         model = LearningPreferences
-        fields = ['preferred_language', 'learning_style']
+        fields = ['preferred_language', 'learning_style', 'tipo_interes']
 
         

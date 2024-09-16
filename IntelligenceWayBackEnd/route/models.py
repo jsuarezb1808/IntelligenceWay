@@ -42,6 +42,16 @@ class LearningPreferences(models.Model):
         default='text'
     )
 
+    tipo_interes = models.CharField(
+        max_length=10,
+        choices=[
+            ('python', 'Python'),
+            ('java', 'Java'),
+            ('django', 'Django'),
+        ],
+        default='python'
+    )
+
     
 
     def __str__(self):

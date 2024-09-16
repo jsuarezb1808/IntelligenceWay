@@ -11,7 +11,9 @@ from django.contrib.auth import login, logout
 from django.views.generic import UpdateView
 from django.urls import reverse_lazy
 from .models import LearningPreferences
+from .models import ContenidoEducacion
 from .forms import LearningPreferencesForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 class IndexView(View):
@@ -96,3 +98,16 @@ class PreferencesUpdateView(UpdateView):
     # Redirigir después de guardar
     def get_success_url(self):
         return reverse_lazy('index')  # Cambia esto a donde desees redirigir después de guardar
+    
+
+
+@login_required
+def iniciar_nueva_ruta(request):
+    # Obtenemos el tipo de interés del modelo LearningPreferences del usuario autenticado
+    tipo_interes = request.user.preferences.tipo_interes  # 'preferences' es el related_name definido en el modelo
+
+    # Filtra los contenidos que coincidan con el tipo de interés del usuario
+    contenidos = ContenidoEducacion.objects.filter(tipo_interes=tipo_interes)[:4]
+
+    # Renderiza la plantilla con los contenidos filtrados
+    return render(request, 'ruta_nueva.html', {'contenidos': contenidos})
