@@ -5,5 +5,3 @@ from .models import formularioAprendizajeUsuario
 # Register your models here.
 
 admin.site.register(formularioAprendizajeUsuario)
-
-admin.site.register(formularioAprendizajeUsuario)
