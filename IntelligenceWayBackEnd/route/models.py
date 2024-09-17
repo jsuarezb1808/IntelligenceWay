@@ -1,67 +1,27 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Route(models.Model):
+class rutaAprendizaje(models.Model):
+    
     title = models.CharField(max_length=100)
     description = models.TextField()
     
     def __str__(self):
         return self.title
-
-#se usa para guardar las respuestas del usuario    
-class LearningMethods(models.Model):
-  #valores posibles para los forms 
-  FRECUENCY=[
-        (1,'Nunca'),
-        (2,'proco frecuente'),
-        (3,'normalmente no'),
-        (4,'frecuentemente'),
-        (5,'siempre'),
-    ]
-#datos guardados de las preguntas 
-  
-  Q1=models.IntegerField(
-     choices=FRECUENCY
-  )
-  Q3=models.IntegerField(
-     choices=FRECUENCY
-  )
-  Q4=models.IntegerField(
-     choices=FRECUENCY
-  )
-  Q2=models.IntegerField(
-     choices=FRECUENCY
-  )
-  Q5=models.IntegerField(
-     choices=FRECUENCY
-  )
-  Q6=models.IntegerField(
-     choices=FRECUENCY
-  )
-#preguntas no obligatorias, se les predefine un valor
-#en caso de que el cliente elija no responder
-  Q7=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
-  Q8=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
-  Q9=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
-  Q10=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
-  Q11=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
-  Q12=models.IntegerField(
-    choices=FRECUENCY,
-    default=1
-  )
+    
+class formularioAprendizajeUsuario(models.Model):
+    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    q1 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q2 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q3 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)]) 
+    q4 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q5 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q6 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q7 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    q8 = models.IntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at= models.DateTimeField(auto_now=True)
