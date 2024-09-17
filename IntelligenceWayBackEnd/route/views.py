@@ -109,3 +109,17 @@ class FormularioView(View):
                 return render(request, self.template_name, viewData)
         else:
             return redirect("index")
+        
+class PreferencesUpdateView(UpdateView):
+    model = LearningPreferences
+    form_class = LearningPreferencesForm
+    template_name = 'preferences.html'
+    
+    # Esto asegura que el formulario siempre se rellene con las preferencias del usuario actual
+    def get_object(self, queryset=None):
+        # Si las preferencias no existen, las crea
+        obj, created = LearningPreferences.objects.get_or_create(user=self.request.user)
+        return obj
+
+    # Redirigir después de guardar
+    def get_success_url(self):

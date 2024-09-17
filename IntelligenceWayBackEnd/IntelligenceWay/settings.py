@@ -40,30 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'route',
 ]
-    "social_django",
-    'IntelligenceWay',
-    'route'
-]
-
-
-SOCIAL_AUTH_TRAILING_SLASH = False
-SOCIAL_AUTH_AUTH0_DOMAIN = config('APP_DOMAIN')
-SOCIAL_AUTH_AUTH0_KEY = config('APP_CLIENT_ID')
-SOCIAL_AUTH_AUTH0_SECRET = config('APP_CLIENT_SECRET')
-
-
-SOCIAL_AUTH_AUTH0_SCOPE = [
-    'openid',
-    'profile',
-    'email',
-]
-
-AUTHENTICATION_BACKENDS = {
-    "social_core.backends.auth0.Auth0OAuth2",
-    "django.contrib.auth.backends.ModelBackend",
-    
-    }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
