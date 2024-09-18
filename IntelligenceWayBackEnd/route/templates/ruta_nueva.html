@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Nueva Ruta</title>
+</head>
+<body>
+    <h1>Contenido sugerido para ti</h1>
+
+    <ul>
+        {% for contenido in contenidos %}
+        <li>
+            <h2>{{ contenido.titulo }}</h2>
+            <p>{{ contenido.descripcion_corta }}</p>
+            <a href="{{ contenido.link }}">Ver más</a>
+        </li>
+        {% empty %}
+        <li>No se encontraron contenidos relacionados.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

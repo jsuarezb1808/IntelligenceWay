@@ -1,14 +1,15 @@
 from typing import Any
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, UpdateView
 from django.views import View
 from django import forms
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import rutaAprendizaje
+from .models import rutaAprendizaje, LearningPreferences, ContenidoEducacion
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
-from .forms import AprendizajeForm
+from .forms import AprendizajeForm, LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # Create your views here.
@@ -123,3 +124,15 @@ class PreferencesUpdateView(UpdateView):
 
     # Redirigir después de guardar
     def get_success_url(self):
+        return reverse_lazy('index')  # Cambia esto a donde desees redirigir después de guardar
+    
+@login_required
+def iniciar_nueva_ruta(request):
+    # Obtenemos el tipo de interés del modelo LearningPreferences del usuario autenticado
+    tipo_interes = request.user.preferences.tipo_interes  # 'preferences' es el related_name definido en el modelo
+
+    # Filtra los contenidos que coincidan con el tipo de interés del usuario
+    contenidos = ContenidoEducacion.objects.filter(tipo_interes=tipo_interes)[:4]
+
+    # Renderiza la plantilla con los contenidos filtrados
+    return render(request, 'ruta_nueva.html', {'contenidos': contenidos})
