@@ -14,17 +14,18 @@ from .models import LearningPreferences
 from .models import ContenidoEducacion
 from .forms import LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
+from .algoritmo import Ruta
 # Create your views here.
 
 class IndexView(View):
-    template_name = "base.html"
+    template_name = "index.html"
     
     def get(self, request):
         return render(request, self.template_name)
 
 class RegisterView(View):
     template_name = "register.html"
-    template_success = "base.html"
+    template_success = "index.html"
     
     def get(self, request): 
         form = UserCreationForm() 
@@ -99,15 +100,26 @@ class PreferencesUpdateView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('index')  # Cambia esto a donde desees redirigir después de guardar
     
+@login_required
+def update_preferences(request):
+    if request.method == 'POST':
+        form = LearningPreferencesForm(request.POST, instance=request.user.preferences)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirige al perfil o a donde prefieras
+    else:
+        form = LearningPreferencesForm(instance=request.user.preferences)
+
+    return render(request, 'update_preferences.html', {'form': form})
 
 
 @login_required
 def iniciar_nueva_ruta(request):
-    # Obtenemos el tipo de interés del modelo LearningPreferences del usuario autenticado
-    tipo_interes = request.user.preferences.tipo_interes  # 'preferences' es el related_name definido en el modelo
+    # Obtenemos el tipo de interés del usuario autenticado
+    tipo_interes = request.user.preferences.tipo_interes  # Accedemos a las preferencias del usuario
 
-    # Filtra los contenidos que coincidan con el tipo de interés del usuario
-    contenidos = ContenidoEducacion.objects.filter(tipo_interes=tipo_interes)[:4]
+    # Filtramos los contenidos que coincidan con el tipo de interés del usuario
+    contenidos = ContenidoEducacion.objects.filter(tipo_interes=tipo_interes)[:5]  # Limitamos a 4 cursos
 
-    # Renderiza la plantilla con los contenidos filtrados
+    # Renderizamos la plantilla con los contenidos filtrados
     return render(request, 'ruta_nueva.html', {'contenidos': contenidos})

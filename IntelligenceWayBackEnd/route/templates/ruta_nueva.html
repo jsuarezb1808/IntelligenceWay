@@ -1,23 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Nueva Ruta</title>
-</head>
-<body>
-    <h1>Contenido sugerido para ti</h1>
+{% extends 'base.html' %}
 
-    <ul>
+{% block content %}
+<h1 class="text-center">Mi Ruta de Aprendizaje</h1>
+
+<div class="progress-container">
+    {% if contenidos %}
         {% for contenido in contenidos %}
-        <li>
+        <div class="progress-step" id="step-{{ forloop.counter }}">
             <h2>{{ contenido.titulo }}</h2>
             <p>{{ contenido.descripcion_corta }}</p>
-            <a href="{{ contenido.link }}">Ver más</a>
-        </li>
-        {% empty %}
-        <li>No se encontraron contenidos relacionados.</li>
+            <div>
+                <a href="{{ contenido.link }}" target="_blank" class="ver-mas-btn" data-step="{{ forloop.counter }}">Link</a>
+                <span class="visto" id="visto-{{ forloop.counter }}">✔️</span> <!-- Icono de visto -->
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    {% else %}
+    <div class="no-content">
+        <p>No se encontraron contenidos para tu tipo de interés.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- JavaScript para manejar el estado de "visto" -->
+<script>
+    // Seleccionamos todos los botones "Ver más"
+    const verMasBtns = document.querySelectorAll('.ver-mas-btn');
+
+    verMasBtns.forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevenimos el redireccionamiento instantáneo
+            const stepId = btn.getAttribute('data-step');
+            const vistoIcon = document.getElementById(`visto-${stepId}`);
+            
+            // Marcamos el contenido como visto (añadimos la clase "active")
+            vistoIcon.classList.add('active');
+            
+            // Redirigimos al enlace
+            window.open(btn.href, '_blank');
+        });
+    });
+</script>
+
+<style>
+    /* General styles */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: #000; /* Fondo negro */
+        color: #fff; /* Texto blanco */
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .progress-container {
+        background-color: rgba(44, 44, 44, 0.3); /* Fondo gris oscuro con opacidad */
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra suave */
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .progress-step {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #c90c0c; /* Azul rey */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    }
+
+    .progress-step h2 {
+        margin: 0;
+    }
+
+    .progress-step p {
+        margin: 0;
+        font-size: 1.1rem;
+        flex-grow: 1;
+        padding: 0 20px;
+    }
+
+    .progress-step a {
+        background-color: #ffffff; /* Botón dorado */
+        color: #c90c0c; /* Azul rey */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .progress-step a:hover {
+        background-color: #3b0a03; /* Color dorado más oscuro al hacer hover */
+    }
+
+    /* Estilo para el ícono de visto */
+    .visto {
+        font-size: 1.5rem;
+        color: #D4AF37;
+        margin-left: 10px;
+        display: none; /* Inicialmente oculto */
+    }
+
+    /* Cuando el contenido está marcado como visto */
+    .visto.active {
+        display: inline-block; /* Mostramos el icono cuando el contenido ha sido visto */
+    }
+
+    /* Empty state */
+    .no-content {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #FF6B6B; /* Rojo para destacar el mensaje de no contenido */
+    }
+</style>
+{% endblock %}
