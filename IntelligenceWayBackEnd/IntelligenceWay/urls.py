@@ -19,7 +19,7 @@ from route.views import RegisterView, LoginView, LogoutView, IndexView,Preferenc
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', IndexView.as_view(), name='index'),
+    path('', IndexView.as_view(), name='index'),
     path('register/', RegisterView.as_view(), name="registro"),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name='logout'),
