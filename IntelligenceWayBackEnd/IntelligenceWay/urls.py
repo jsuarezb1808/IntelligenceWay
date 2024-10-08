@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from route.views import RegisterView, LoginView, LogoutView, IndexView, PreferencesUpdateView, FormularioView, iniciar_nueva_ruta
+from route.views import RegisterView, LoginView, LogoutView, IndexView,PreferencesUpdateView,iniciar_nueva_ruta,update_preferences,FormularioView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='index'),

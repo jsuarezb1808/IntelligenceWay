@@ -27,6 +27,8 @@ class formularioAprendizajeUsuario(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at= models.DateTimeField(auto_now=True)
 
+
+
 class LearningPreferences(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
     preferred_language = models.CharField(
@@ -38,6 +40,16 @@ class LearningPreferences(models.Model):
         max_length=50,
         choices=[('video', 'Video'), ('text', 'Text'), ('curso', 'Curso'),('audio','Audio')],
         default='text'
+    )
+
+    tipo_interes = models.CharField(
+        max_length=10,
+        choices=[
+            ('python', 'Python'),
+            ('java', 'Java'),
+            ('django', 'Django'),
+        ],
+        default='python'
     )
 
     
@@ -56,9 +68,9 @@ class ContenidoEducacion(models.Model):
 
     
     TIPO_RECURSO_CHOICES = [
-        (VIDEO, 'video'),
-        (TEXTO, 'texto'),
-        (AUDIO, 'audio'),
+        (VIDEO, 'Video'),
+        (TEXTO, 'Texto'),
+        (AUDIO, 'Audio'),
     ]
 
     TIPO_DE_INTERES_CHOICES =[
@@ -67,7 +79,7 @@ class ContenidoEducacion(models.Model):
         (DJANGO,'Django'),
 
     ]
-    idCurso = models.AutoField(primary_key=True)
+    
     titulo = models.CharField(max_length=255)
     link = models.URLField()
     descripcion_corta = models.CharField(max_length=500, blank=True)

@@ -9,20 +9,27 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import rutaAprendizaje, LearningPreferences, ContenidoEducacion
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
+from .models import LearningPreferences
+from .models import ContenidoEducacion
+from .forms import LearningPreferencesForm
+from django.contrib.auth.decorators import login_required
+from .algoritmo import Ruta
 from .forms import AprendizajeForm, LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # Create your views here.
 
 class IndexView(View):
-    template_name = "base.html"
+    template_name = "index.html"
     
     def get(self, request):
         return render(request, self.template_name)
 
 class RegisterView(View):
     template_name = "register.html"
-    template_success = "base.html"
+    template_success = "index.html"
     
     def get(self, request): 
         form = UserCreationForm() 
@@ -136,3 +143,15 @@ def iniciar_nueva_ruta(request):
 
     # Renderiza la plantilla con los contenidos filtrados
     return render(request, 'ruta_nueva.html', {'contenidos': contenidos})
+
+@login_required
+def update_preferences(request):
+    if request.method == 'POST':
+        form = LearningPreferencesForm(request.POST, instance=request.user.preferences)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Redirige al perfil o a donde prefieras
+    else:
+        form = LearningPreferencesForm(instance=request.user.preferences)
+
+    return render(request, 'update_preferences.html', {'form': form})
