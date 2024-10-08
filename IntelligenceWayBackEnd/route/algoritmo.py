@@ -1,4 +1,4 @@
-from models import ContenidoEducacion,formularioAprendizajeUsuario   # Importa el modelo
+from .models import ContenidoEducacion,formularioAprendizajeUsuario   # Importa el modelo
 import math
 class Ruta():
 

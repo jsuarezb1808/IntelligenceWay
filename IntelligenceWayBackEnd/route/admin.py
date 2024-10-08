@@ -9,9 +9,6 @@ from .models import ContenidoEducacion, LearningPreferences
 @admin.register(ContenidoEducacion)
 class ContenidoEducacionAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'tipo_recurso', 'duracion')
-@admin.register(ContenidoEducacion)
-class ContenidoEducacionAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'tipo_recurso', 'duracion')
-
+    
 admin.site.register(formularioAprendizajeUsuario)
 admin.site.register(LearningPreferences)
