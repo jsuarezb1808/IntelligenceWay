@@ -2,20 +2,25 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
 from django.forms import ValidationError
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings 
+
+
 
 # Create your models here.
 
 class rutaAprendizaje(models.Model):
-    
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    RouteID = models.AutoField(primary_key=True)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    contenidos = models.JSONField()
+    completado = models.BooleanField(default=False)
     
     def __str__(self):
         return self.title
-    
+
 class formularioAprendizajeUsuario(models.Model):
     
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     q1 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     q2 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     q3 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -29,17 +34,14 @@ class formularioAprendizajeUsuario(models.Model):
 
 
 
-class LearningPreferences(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
-    preferred_language = models.CharField(
-        max_length=50,
-        choices=[('EN', 'English'), ('ES', 'Spanish')],
-        default='ES'
+class CustomUser(AbstractUser):
+    preferred_language = models.IntegerField(
+        choices=[(1, 'English'), (2, 'Spanish')],
+        default=2
     )
-    learning_style = models.CharField(
-        max_length=50,
-        choices=[('video', 'Video'), ('text', 'Text'), ('curso', 'Curso'),('audio','Audio')],
-        default='text'
+    learning_style = models.IntegerField(
+        choices=[(1, 'Video'), (2, 'Text'), (3, 'Curso'), (4, 'Audio')],
+        default=2   
     )
 
     tipo_interes = models.CharField(
@@ -51,6 +53,13 @@ class LearningPreferences(models.Model):
         ],
         default='python'
     )
+    duracion = [
+        (1, 'Menos de 10 minutos'),
+        (2, '10-20 minutos'),
+        (3, '20-30 minutos'),
+        (4, '30-40 minutos'),
+        (5, 'Más de 40 minutos'),
+    ]
 
     
 
@@ -112,3 +121,7 @@ class ContenidoEducacion(models.Model):
 
 
 
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
+admin.site.register(CustomUser, UserAdmin)

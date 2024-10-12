@@ -6,17 +6,15 @@ from django.views import View
 from django import forms
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import rutaAprendizaje, LearningPreferences, ContenidoEducacion
+from .models import rutaAprendizaje, ContenidoEducacion
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.views.generic import UpdateView
 from django.urls import reverse_lazy
-from .models import LearningPreferences
 from .models import ContenidoEducacion
-from .forms import LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
 from .algoritmo import Ruta
-from .forms import AprendizajeForm, LearningPreferencesForm
+from .forms import AprendizajeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # Create your views here.
@@ -119,15 +117,14 @@ class FormularioView(View):
             return redirect("index")
         
 class PreferencesUpdateView(UpdateView):
-    model = LearningPreferences
-    form_class = LearningPreferencesForm
+    pass
     template_name = 'preferences.html'
     
     # Esto asegura que el formulario siempre se rellene con las preferencias del usuario actual
     def get_object(self, queryset=None):
         # Si las preferencias no existen, las crea
-        obj, created = LearningPreferences.objects.get_or_create(user=self.request.user)
-        return obj
+       pass
+        
 
     # Redirigir después de guardar
     def get_success_url(self):
@@ -147,11 +144,7 @@ def iniciar_nueva_ruta(request):
 @login_required
 def update_preferences(request):
     if request.method == 'POST':
-        form = LearningPreferencesForm(request.POST, instance=request.user.preferences)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')  # Redirige al perfil o a donde prefieras
+        pass
+        
     else:
-        form = LearningPreferencesForm(instance=request.user.preferences)
-
-    return render(request, 'update_preferences.html', {'form': form})
+        pass

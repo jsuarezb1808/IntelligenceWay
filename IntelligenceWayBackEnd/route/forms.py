@@ -1,5 +1,6 @@
 from django import forms
-from .models import rutaAprendizaje, formularioAprendizajeUsuario, LearningPreferences
+from .models import rutaAprendizaje, formularioAprendizajeUsuario, CustomUser
+
 
 """
 class UsuarioForm(forms.ModelForm):
@@ -25,11 +26,11 @@ class AprendizajeForm(forms.ModelForm):
     
     class Meta:
         model = formularioAprendizajeUsuario
-        fields = ["usuario", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"]
-        
+        fields = [ "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"]
+
+
 class LearningPreferencesForm(forms.ModelForm):
     class Meta:
-        model = LearningPreferences
-        fields = ['preferred_language', 'learning_style']
-
+        model = CustomUser
+        fields = ["preferred_language", "learning_style"]   
         
