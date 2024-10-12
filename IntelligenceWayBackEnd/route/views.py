@@ -15,7 +15,7 @@ from .models import LearningPreferences
 from .models import ContenidoEducacion
 from .forms import LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
-from .algoritmo import Ruta
+from .algoritmo import EstimacionEstudio
 from .forms import AprendizajeForm, LearningPreferencesForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
