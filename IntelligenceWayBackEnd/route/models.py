@@ -37,6 +37,14 @@ class RutaAprendizaje(models.Model):
     def __str__(self):
         return self.title
 
+class Reporte(models.Model):
+    IdContenido = models.ForeignKey(Contenido)
+    descripcion = models.TextField(max_length=255)
+    
+class Favorito(models.Model):
+    usuario = models.OneToOneField(User)
+    lista = models.ManyToManyField(RutaAprendizaje)
+    
 
 '''
 class LearningPreferences(models.Model):
