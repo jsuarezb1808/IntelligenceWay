@@ -42,7 +42,7 @@ class EstimacionEstudio():
         texto=self.ValoracionTipoContenido(obj.q1,obj.q5)
         audio=self.ValoracionTipoContenido(obj.q2,obj.q6)
         video=self.ValoracionTipoContenido(obj.q3,obj.q7)
-
+    
         values=[texto,audio,video]
         return values
 
@@ -57,14 +57,25 @@ class EstimacionEstudio():
     def VerificacionContenido(curso,usuario):
         Valido=True
 
-        categoria_curso=curso.learning_style
-        categoria_usuario=usuario.learning_style
+        categoria_curso=curso.tipoDeContenido
+        PreferenciaAudio=usuario.prefenciaAudio
+        PreferenciaVideo=usuario.prefenciaVideo
+        preferenciaTexto=usuario.prefenciaTexto
 
-        if categoria_curso == categoria_usuario:
-            return Valido
-        else:
-            Valido=False
-            return Valido
+        if (PreferenciaAudio >= PreferenciaVideo) and (PreferenciaAudio >= preferenciaTexto): 
+            if categoria_curso == 2:
+                return Valido
+            else:
+                Valido=False 
+        elif (PreferenciaVideo >= PreferenciaAudio) and (PreferenciaVideo >= preferenciaTexto): 
+             if categoria_curso == 3:
+                return Valido 
+        else: 
+             if categoria_curso == 1:
+                return Valido
+        
+        Valido=False
+        return Valido
 
 
     #se usa para verificar que la duracion de el contenido si sea el correcto, recibe un objeto usuario
@@ -72,7 +83,7 @@ class EstimacionEstudio():
         
     def VerificacionTiempo(curso,usuario):
         duracion= curso.duracion
-        duracion_predilecta= usuario.duracion
+        duracion_predilecta= usuario.tiempoAprendizaje
         Valido=True
 
         if duracion == duracion_predilecta:
@@ -81,3 +92,6 @@ class EstimacionEstudio():
         else:
             valido=False
             return Valido
+        
+
+ 

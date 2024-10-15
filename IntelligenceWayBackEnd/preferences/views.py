@@ -52,4 +52,3 @@ class RespuestasView(View):
 
             return redirect('profile')
         return render(request, 'respuestas_form.html', {'form': form})
-    
