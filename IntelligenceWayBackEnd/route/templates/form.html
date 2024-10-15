@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-
-{%block content%}
+{% block content %}
     {% if form.errors %}
                 <ul id="errors">
                     {% for field, errors in form.errors.items %}
@@ -11,7 +10,7 @@
                 </ul>
             {% endif %}
             <form method="POST">
-                {{form}}
+                {{ form }}
                 {%csrf_token%}
                 <button type="submit">Enviar</button>
               </div>

@@ -54,27 +54,30 @@ class EstimacionEstudio():
 
     #se usa para verificar que el contenido si sea el correcto, recibe un objeto usuario
     #y el objeto contenido, devuelve true o false para cominucar si es valido o ono
-    def VerificacionContenido(curso,usuario):
-        Valido=True
+    def VerificacionContenido(curso, usuario):
+        Valido = True
 
-        categoria_curso=curso.tipoDeContenido
-        PreferenciaAudio=usuario.prefenciaAudio
-        PreferenciaVideo=usuario.prefenciaVideo
-        preferenciaTexto=usuario.prefenciaTexto
+        # Acceder a las preferencias de tipo de contenido del usuario
+        PreferenciaAudio = usuario.preferenciaAudio  # Acceso correcto al atributo
+        PreferenciaVideo = usuario.preferenciaVideo
+        preferenciaTexto = usuario.preferenciaTexto
 
-        if (PreferenciaAudio >= PreferenciaVideo) and (PreferenciaAudio >= preferenciaTexto): 
+        categoria_curso = curso.tipoDeContenido
+
+        # Lógica para verificar el tipo de contenido
+        if (PreferenciaAudio >= PreferenciaVideo) and (PreferenciaAudio >= preferenciaTexto):
             if categoria_curso == 2:
                 return Valido
             else:
-                Valido=False 
-        elif (PreferenciaVideo >= PreferenciaAudio) and (PreferenciaVideo >= preferenciaTexto): 
-             if categoria_curso == 3:
-                return Valido 
-        else: 
-             if categoria_curso == 1:
+                Valido = False
+        elif (PreferenciaVideo >= PreferenciaAudio) and (PreferenciaVideo >= preferenciaTexto):
+            if categoria_curso == 3:
                 return Valido
-        
-        Valido=False
+        else:
+            if categoria_curso == 1:
+                return Valido
+
+        Valido = False
         return Valido
 
 
