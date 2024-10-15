@@ -34,6 +34,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    preferenciaAudio=models.IntegerField()
+    preferenciaVideo=models.IntegerField()
+    preferenciaTexto=models.IntegerField()
+    tiempoAprendizaje=models.IntegerField()
     
     objects = MyUserManager()
 
