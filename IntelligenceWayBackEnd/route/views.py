@@ -9,7 +9,14 @@ from user.models import User
 #se encarga de crear la ruta una vez el usuario ingresa un interes
 class CreateRoute(View):
     template_name = "form.html"
-    
+    def get(self,request):
+        if not request.user.is_authenticated:
+            form = interesForm() 
+            viewData = {}
+            viewData["form"] = form
+            return render(request, self.template_name, viewData)
+        return redirect('')
+
     def post(self, request):
         form = interesForm(data=request.POST) 
         viewData = {}
