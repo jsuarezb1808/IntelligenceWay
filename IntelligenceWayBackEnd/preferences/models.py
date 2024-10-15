@@ -18,3 +18,5 @@ class ModeloAprendizajeUsuario(models.Model):
     q8 = models.IntegerField(null=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     update_at= models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.usuario}'
