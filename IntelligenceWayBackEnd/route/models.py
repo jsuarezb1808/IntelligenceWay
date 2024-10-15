@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 
@@ -13,22 +12,7 @@ class rutaAprendizaje(models.Model):
     def __str__(self):
         return self.title
     
-class formularioAprendizajeUsuario(models.Model):
-    
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    q1 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q2 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q3 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q4 = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q5 = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q6 = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q7 = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    q8 = models.IntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_at= models.DateTimeField(auto_now=True)
-
-
-
+'''
 class LearningPreferences(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
     preferred_language = models.CharField(
@@ -96,12 +80,6 @@ class ContenidoEducacion(models.Model):
             raise ValidationError("La duración debe estar entre 1 y 3.")
     
     def obtener_contenidos_por_tipo_interes(cls, tipo_interes):
-        """
-        Obtiene todos los contenidos cuyo tipo de interés coincida con el valor dado.
-        
-        :param tipo_interes: El tipo de interés que deseas filtrar (e.g., 'django', 'python', 'java')
-        :return: QuerySet con todos los objetos ContenidoEducacion que coincidan con el tipo de interés
-        """
         return cls.objects.filter(tipo_interes=tipo_interes)
     
     def prueba():
@@ -109,6 +87,5 @@ class ContenidoEducacion(models.Model):
 
 
 
-
-
+'''
 

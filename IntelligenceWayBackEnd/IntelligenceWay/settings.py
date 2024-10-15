@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'account',
+    'home',
+    'user',
+    'preferences',
     'route',
 ]
 
@@ -57,7 +61,7 @@ ROOT_URLCONF = 'IntelligenceWay.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,7 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = '/user/login/'  # Cambia esto para que apunte a tu URL de inicio de sesión
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

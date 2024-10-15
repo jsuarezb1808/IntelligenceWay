@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content%}
+        <div class="card container">
+            <h1>Perfil de {{ user.nombre }} {{ user.apellido }}</h1>
+            <p>Nombre: {{ user.nombre }} {{ user.apellido }}</p>
+            <p>Email: {{ user.email }}</p>
+            <h2>Resultados de Tests</h2>
+            <ul>
+            <li>Test ID: {{ test.id }}</li>
+            <ul>
+                <li>Pregunta 1: {{ test.q1 }}</li>
+                <li>Pregunta 2: {{ test.q2 }}</li>
+                <li>Pregunta 3: {{ test.q3 }}</li>
+                <li>Pregunta 4: {{ test.q4 }}</li>
+                <li>Pregunta 5: {{ test.q5 }}</li>
+                <li>Pregunta 6: {{ test.q6 }}</li>
+                <li>Pregunta 7: {{ test.q7 }}</li>
+                <li>Pregunta 8: {{ test.q8 }}</li>
+            </ul>
+    </ul>
+        </div>
+    {% endblock %}

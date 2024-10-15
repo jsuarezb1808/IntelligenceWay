@@ -1,0 +1,96 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #EDF2F4; /* Fondo principal (gris claro) */
+    color: #2B2D42; /* Color de texto principal */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #850e7b; /* Rojo oscuro moderno */
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    margin-right: 20px;
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
+footer {
+    background-color: #2B2D42;
+    color: white;
+}
+
+/* Container */
+.container {
+    width: auto;
+    height: 100%;
+    padding: 20px;
+    column-gap: space-between;
+    justify-content: space-between
+}
+
+/* Content Header */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content-header h2 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.new-route-btn {
+    background-color: #8D99AE; /* Gris azulado claro */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.filter-btn {
+    background-color: #8D99AE;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 10px;
+}
+
+/* Route Cards */
+.route-card {
+    background-color: #EF233C; /* Rojo oscuro moderno */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.route-card h3 {
+    margin: 0;
+}
+
+.route-card .star {
+    font-size: 1.5rem;
+    color: white;
+}
