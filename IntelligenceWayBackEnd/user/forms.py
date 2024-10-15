@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
             self.fields[field].widget.attrs.update({'class': 'form-control'})
     class Meta:
         model = User
-        fields = ['nombre', 'email', 'password1', 'password2']
+        fields = ['nombre', 'apellido', 'email',  'password1', 'password2']
         
         
 class LoginForm(AuthenticationForm):
