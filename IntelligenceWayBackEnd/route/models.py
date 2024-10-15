@@ -43,7 +43,7 @@ class Reporte(models.Model):
     
 class Favorito(models.Model):
     usuario = models.OneToOneField(User)
-    lista = models.ManyToManyField(RutaAprendizaje)
+    lista = models.ManyToManyField(RutaAprendizaje, blank=True)
     
 
 '''
