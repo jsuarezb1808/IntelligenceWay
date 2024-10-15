@@ -36,10 +36,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     content = models.FloatField(default=1)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    preferenciaAudio=models.IntegerField()
-    preferenciaVideo=models.IntegerField()
-    preferenciaTexto=models.IntegerField()
-    tiempoAprendizaje=models.IntegerField()
+    preferenciaAudio=models.IntegerField(null=True)
+    preferenciaVideo=models.IntegerField(null=True)
+    preferenciaTexto=models.IntegerField(null=True)
+    tiempoAprendizaje=models.IntegerField(null=True)
     
     objects = MyUserManager()
 
