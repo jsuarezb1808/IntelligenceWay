@@ -32,4 +32,6 @@ class LearningPreferencesForm(forms.ModelForm):
         model = LearningPreferences
         fields = ['preferred_language', 'learning_style']
 
+class Interests(forms.)
+
         
