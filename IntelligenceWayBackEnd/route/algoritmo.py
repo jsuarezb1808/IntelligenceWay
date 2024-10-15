@@ -71,8 +71,8 @@ class EstimacionEstudio():
     #y el objeto contenido, devuelve true o false para cominucar si es valido o ono
         
     def VerificacionTiempo(curso,usuario):
-        duracion: curso.duracion
-        duracion_predilecta: usuario.duracion
+        duracion= curso.duracion
+        duracion_predilecta= usuario.duracion
         Valido=True
 
         if duracion == duracion_predilecta:
