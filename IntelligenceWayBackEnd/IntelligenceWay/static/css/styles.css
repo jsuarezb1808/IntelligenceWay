@@ -2,16 +2,26 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #EDF2F4; /* Fondo principal (gris claro) */
+    /*background-color: #EDF2F4; /* Fondo principal (gris claro) */
     color: #2B2D42; /* Color de texto principal */
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0.555), rgba(255, 255, 255, 0.774));
+    height: 100vh;
+    margin: 0;
 }
 
+.navbar a{
+    color: white;
+}
+.navbar a:hover {
+    color:yellow;
+}
 /* Navbar */
 .navbar {
-    background-color: #EF233C; /* Rojo oscuro moderno */
+    background-color: rgb(82, 27, 27); /* Rojo oscuro moderno */
 }
 
 .navbar-brand {
+    color: white;
     font-size: 1.8rem;
 }
 
@@ -26,12 +36,14 @@ body {
 
 /* Footer */
 footer {
-    background-color: #2B2D42;
+    background-color: #000000;
     color: white;
 }
 
 /* Container */
 .container {
+    width: 100%;
+    height: 100%;
     padding: 20px;
 }
 
