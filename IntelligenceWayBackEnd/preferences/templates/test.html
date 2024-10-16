@@ -1,10 +1,89 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container card ">
-	<form method="post"> 
-		{% csrf_token %} 
-		{{ form.as_p }} 
-		<input class="btn btn-success btn-primary"type="submit" value="Save"> 
-	</form> 
+<div class="container mt-5">
+	<div class="card shadow-sm p-4">
+		<h2 class="mb-4 text-center">Responde el test</h2>
+        <form method="post" id="questionForm">
+            {% csrf_token %}
+            
+            <!-- Sección de preguntas -->
+            <div class="question" id="question-1">
+                {{ form.q1.label_tag }} <br>
+                {{ form.q1 }}
+            </div>
+
+            <div class="question" id="question-2" style="display:none;">
+                {{ form.q2.label_tag }} <br>
+                {{ form.q2 }}
+            </div>
+
+            <div class="question" id="question-3" style="display:none;">
+                {{ form.q3.label_tag }} <br>
+                {{ form.q3 }}
+            </div>
+
+            <div class="question" id="question-4" style="display:none;">
+                {{ form.q4.label_tag }} <br>
+                {{ form.q4 }}
+            </div>
+
+            <div class="question" id="question-5" style="display:none;">
+                {{ form.q5.label_tag }} <br>
+                {{ form.q5 }}
+            </div>
+
+            <div class="question" id="question-6" style="display:none;">
+                {{ form.q6.label_tag }} <br>
+                {{ form.q6 }}
+            </div>
+
+            <div class="question" id="question-7" style="display:none;">
+                {{ form.q7.label_tag }} <br>
+                {{ form.q7 }}
+            </div>
+
+            <div class="question" id="question-8" style="display:none;">
+                {{ form.q8.label_tag }} <br>
+                {{ form.q8 }}
+            </div>
+
+            <!-- Botones de navegación -->
+            <div class="d-flex justify-content-between mt-3">
+                <button type="button" id="prevBtn" class="btn btn-secondary" onclick="showPrevQuestion()" style="display:none;">Anterior</button>
+                <button type="button" id="nextBtn" class="btn btn-primary" onclick="showNextQuestion()">Siguiente</button>
+            </div>
+
+            <!-- Botón de Guardar, solo visible al final -->
+            <div class="text-center mt-3" id="saveBtn" style="display:none;">
+                <input class="btn btn-success" type="submit" value="Guardar">
+            </div>
+        </form>
+    </div>
 </div>
-{% endblock%}
+
+<script>
+    var currentQuestion = 1;
+    var totalQuestions = 8;  // Cambiado a 8 preguntas
+
+    function showNextQuestion() {
+        document.getElementById('question-' + currentQuestion).style.display = 'none';
+        currentQuestion++;
+        document.getElementById('question-' + currentQuestion).style.display = 'block';
+        updateButtons();
+    }
+
+    function showPrevQuestion() {
+        document.getElementById('question-' + currentQuestion).style.display = 'none';
+        currentQuestion--;
+        document.getElementById('question-' + currentQuestion).style.display = 'block';
+        updateButtons();
+    }
+
+    function updateButtons() {
+        // Mostrar/ocultar botones de navegación
+        document.getElementById('prevBtn').style.display = currentQuestion > 1 ? 'inline-block' : 'none';
+        document.getElementById('nextBtn').style.display = currentQuestion < totalQuestions ? 'inline-block' : 'none';
+        document.getElementById('saveBtn').style.display = currentQuestion == totalQuestions ? 'block' : 'none';
+    }
+</script>
+{% endblock %}

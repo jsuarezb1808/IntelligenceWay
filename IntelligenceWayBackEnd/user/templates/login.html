@@ -1,26 +1,38 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-    <!-- Sección Registrarse -->
-    <section id="register" class="py-5">
-        <div class="container">
-            <h2>Ingresa con tu cuenta</h2>
-            {% if form.errors %}
-                <ul id="errors" class="alert alert-danger list-unstyled">
-                    {% for field, errors in form.errors.items %}
-                        {% for error in errors %}
-                            <li>{{ error }}</li>
+<section id="register" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Columna del formulario -->
+            <div class="col-lg-6 mb-4">
+                <h2>Ingresa con tu cuenta</h2>
+                {% if form.errors %}
+                    <ul id="errors" class="alert alert-danger list-unstyled">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <form method="POST">
-                {% csrf_token %}
-                <div class="mb-3">
-                {{ form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-success">Ingresar</button>
-            </form>
+                    </ul>
+                {% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.as_p }}
+                    </div>
+                    <!-- Botón centrado -->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Columna de la imagen -->
+            <div class="col-lg-6 mb-4 text-center">
+                <img src="{% static 'img/login.png' %}" alt="Ingresa con tu cuenta" class="img-fluid rounded">
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

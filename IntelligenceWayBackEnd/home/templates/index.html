@@ -1,31 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="container text-center">
-    <h1 class="mt-5">¡Bienvenido a Intelligence Way!</h1>
-    <p class="lead mt-4">
-        Intelligence Way es una plataforma diseñada para ayudarte a crear rutas de aprendizaje personalizadas basadas en tus preferencias y estilo de aprendizaje.
-        Nuestro objetivo es facilitarte el acceso a materiales educativos ya cargados en nuestra base de datos, y guiarte en tu proceso de aprendizaje.
-    </p>
-    <hr class="my-4">
-    <p>
-        Con Intelligence Way, puedes generar rutas de aprendizaje en función de tus intereses y tus preferencias para consumir contenido, ya sea texto, video o audio.
-        Todo lo que tienes que hacer es completar un sencillo formulario y nosotros nos encargamos del resto.
-    </p>
+<div class="container">
+    <div class="row align-items-center">
+        <!-- Columna de texto -->
+        <div class="col-lg-6 mb-4">
+            <h1 class="mt-5">¡Bienvenido a Intelligence Way!</h1>
+            <p class="lead mt-4">
+                Intelligence Way es una plataforma diseñada para ayudarte a crear rutas de aprendizaje personalizadas basadas en tus preferencias. Utilizamos contenido educativo que ya está en la base de datos y lo adaptamos según tus gustos y estilos de aprendizaje.
+            </p>
+            <p class="mt-3">
+                Con nuestra herramienta, puedes completar un breve cuestionario que nos permitirá conocer tus intereses en cuanto al tipo de contenido (texto, video, audio) y el tiempo que prefieres dedicar a estudiar. A partir de esta información, generamos rutas de aprendizaje que se adaptan perfectamente a ti.
+            </p>
+            <p class="mt-3">
+                ¡Comienza a explorar y optimiza tu forma de aprender con Intelligence Way!
+            </p>
+            <a href="{% url 'Crear_ruta' %}" class="btn btn-primary btn-lg mt-4">Iniciar Ruta</a>
+        </div>
 
-    <div class="mt-5">
-        <h2>¿Cómo funciona?</h2>
-        <ol class="text-left mx-auto" style="max-width: 600px;">
-            <li>Haz el <strong>test de preferencias</strong> para que conozcamos tu estilo de aprendizaje.</li>
-            <li>Selecciona tus <strong>áreas de interés</strong> en nuestro formulario.</li>
-            <li>Recibe una <strong>ruta de aprendizaje</strong> adaptada a tus preferencias con los mejores contenidos educativos disponibles.</li>
-            <li>¡Empieza a aprender de la manera que mejor te funciona!</li>
-        </ol>
-    </div>
-
-    <div class="mt-5">
-        <a href="{% url 'preferencia-update' %}" class="btn btn-primary btn-lg">Haz el Test de Preferencias</a>
-        <a href="{% url 'Crear_ruta' %}" class="btn btn-secondary btn-lg">Iniciar una Ruta de Aprendizaje</a>
+        <!-- Columna de imagen -->
+        <div class="col-lg-6 mb-4 text-center">
+            <img src="{% static 'img/chica.png' %}" alt="Intelligence Way" class="img-fluid rounded ">
+        </div>
     </div>
 </div>
 {% endblock %}
