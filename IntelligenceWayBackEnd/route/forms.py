@@ -14,3 +14,5 @@ class InteresForm(forms.Form):
         super(InteresForm, self).__init__(*args, **kwargs)
         # Obtener las opciones desde el modelo Categoria
         self.fields['interes'].choices = [(interes.id, interes.tagName) for interes in Tag.objects.all()]
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
