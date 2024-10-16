@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomUserCreationForm, LoginForm
+ 
 # Create your views here.
 
 
