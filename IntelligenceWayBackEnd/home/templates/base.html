@@ -18,7 +18,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="https://media.discordapp.net/attachments/1073616258223833089/1285762388447989800/Designer_2-Photoroom.png?ex=66f404c9&is=66f2b349&hm=b5e70f6f526e28b5a019dc17615ad708c2269745996db7106024683cff2609ca&=&format=webp&quality=lossless&width=701&height=701" alt="Intelligence Way Logo">
+                <img src="{% static 'img/logo.png' %}" alt="Intelligence Way Logo" style="width:75px; height: auto;">
+                Intelligence Way
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,10 +31,7 @@
                         <a class="nav-link" href="#">Mis rutas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Iniciar Ruta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cambiar interes</a>
+                        <a class="nav-link" href="{% url "Crear_ruta" %}">Iniciar Ruta</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "preferencia-update" %}">Haz el test</a>

@@ -36,3 +36,14 @@ class RutaAprendizaje(models.Model):
     
     def __str__(self):
         return self.title
+
+class Reporte(models.Model):
+    IdContenido = models.ForeignKey(Contenido, default="Usuario borrado", on_delete=models.SET_DEFAULT)
+    descripcion = models.TextField(max_length=255)
+    
+class Favorito(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    lista = models.ManyToManyField(RutaAprendizaje, blank=True)
+    
+
+
