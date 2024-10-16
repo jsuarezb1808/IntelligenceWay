@@ -9,6 +9,40 @@ from user.models import User
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.views.generic.edit import FormMixin
+from .forms import ReporteForm
+from django.urls import reverse
+
+
+
+
+
+class ContenidoDetailView(FormMixin, DetailView):
+    model = Contenido
+    template_name = 'contenido_detail.html'
+    context_object_name = 'contenido'
+    form_class = ReporteForm
+
+    def get_success_url(self):
+        # Redirigir a la misma página después de enviar el reporte
+        return reverse('contenido_detail', kwargs={'pk': self.object.pk})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            # Crear el reporte
+            reporte = form.save(commit=False)
+            reporte.IdContenido = self.object
+            reporte.save()
+            messages.success(request, '¡Reporte enviado exitosamente!')  # Mensaje de éxito
+            return self.form_valid(form)
+        else:
+            messages.error(request, 'Hubo un error al enviar el reporte. Inténtalo de nuevo.')  # Mensaje de error
+            return self.form_invalid(form)
+
+
+
 
 class CreateRoute(View, LoginRequiredMixin):
     template_name = "form.html"
@@ -72,10 +106,16 @@ class MyRoutes(ListView):
 
 
 
-class RutaDetail(DetailView, LoginRequiredMixin):
+class RutaDetail(LoginRequiredMixin, DetailView):
     model = RutaAprendizaje
-    template_name = 'ruta_detail.html'  # Cambia esto por la ruta a tu plantilla de detalles
+    template_name = 'ruta_detail.html'  # Asegúrate de que esta es la ruta a tu plantilla de detalles
     context_object_name = 'route'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Agregar los contenidos de la ruta al contexto
+        context['contenidos'] = self.object.contenidos.all()
+        return context
 
 class RutaFavoritasView(ListView):
     model = RutaAprendizaje

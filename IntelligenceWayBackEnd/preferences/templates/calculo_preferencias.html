@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h2>Preferencias de Aprendizaje</h2>
-        <h4>Tipo de Contenido Preferido</h4>
-        <ul>
-            <li>Texto: {{ preferencias_contenido.0 }}</li>
-            <li>Audio: {{ preferencias_contenido.1 }}</li>
-            <li>Video: {{ preferencias_contenido.2 }}</li>
-        </ul>
-        <h4>Tiempo de Estudio Preferido</h4>
-        <p>Tiempo: {{ preferencias_tiempo }}</p>
+    <div class="container mt-5">
+        <div class="card shadow-sm p-4">
+            <h2 class="mb-4 text-center">Preferencias de Aprendizaje</h2>
+            
+            <h4>Tipo de Contenido Preferido</h4>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Texto: <span class="badge bg-primary">{{ preferencias_contenido.0 }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Audio: <span class="badge bg-primary">{{ preferencias_contenido.1 }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Video: <span class="badge bg-primary">{{ preferencias_contenido.2 }}</span>
+                </li>
+            </ul>
+            
+            <h4 class="mt-4">Tiempo de Estudio Preferido</h4>
+            <p class="lead">Tiempo: <strong>{{ preferencias_tiempo }}</strong></p>
+            
+            <div class="text-center mt-4">
+                <a href="{% url 'profile' %}" class="btn btn-primary">Ir a Mi Perfil</a>
+            </div>
+        </div>
     </div>
 {% endblock %}

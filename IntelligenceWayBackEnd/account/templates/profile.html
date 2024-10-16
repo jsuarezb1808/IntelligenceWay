@@ -1,22 +1,58 @@
 {% extends "base.html" %}
-{% block content%}
-        <div class="card container">
-            <h1>Perfil de {{ user.nombre }} {{ user.apellido }}</h1>
-            <p>Nombre: {{ user.nombre }} {{ user.apellido }}</p>
-            <p>Email: {{ user.email }}</p>
-            <h2>Resultados de Tests</h2>
-            <ul>
-            <li>Test ID: {{ test.id }}</li>
-            <ul>
-                <li>Pregunta 1: {{ test.q1 }}</li>
-                <li>Pregunta 2: {{ test.q2 }}</li>
-                <li>Pregunta 3: {{ test.q3 }}</li>
-                <li>Pregunta 4: {{ test.q4 }}</li>
-                <li>Pregunta 5: {{ test.q5 }}</li>
-                <li>Pregunta 6: {{ test.q6 }}</li>
-                <li>Pregunta 7: {{ test.q7 }}</li>
-                <li>Pregunta 8: {{ test.q8 }}</li>
-            </ul>
-    </ul>
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <div class="card-header bg-primary text-white text-center">
+            <h1 class="mb-0">Perfil de {{ user.nombre }} {{ user.apellido }}</h1>
         </div>
-    {% endblock %}
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-user"></i> Nombre:</h5>
+                    <p class="text-muted">{{ user.nombre }} {{ user.apellido }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-envelope"></i> Email:</h5>
+                    <p class="text-muted">{{ user.email }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 class="text-center mt-4"><i class="fas fa-clipboard-list"></i> Resultados de Tests</h2>
+            <div class="table-responsive mt-3">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Test ID</th>
+                            <th>Pregunta 1</th>
+                            <th>Pregunta 2</th>
+                            <th>Pregunta 3</th>
+                            <th>Pregunta 4</th>
+                            <th>Pregunta 5</th>
+                            <th>Pregunta 6</th>
+                            <th>Pregunta 7</th>
+                            <th>Pregunta 8</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ test.id }}</td>
+                            <td>{{ test.q1 }}</td>
+                            <td>{{ test.q2 }}</td>
+                            <td>{{ test.q3 }}</td>
+                            <td>{{ test.q4 }}</td>
+                            <td>{{ test.q5 }}</td>
+                            <td>{{ test.q6 }}</td>
+                            <td>{{ test.q7 }}</td>
+                            <td>{{ test.q8 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+        </div>
+    </div>
+</div>
+{% endblock %}

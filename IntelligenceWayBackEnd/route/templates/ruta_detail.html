@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
-        <h2>{{ route.title }}</h2>
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4 text-center">{{ route.title }}</h2>
         <p>{{ route.description }}</p>
-        <!-- Agrega más detalles que quieras mostrar -->
+
+        <h3>Contenidos en esta ruta:</h3>
+        <ul>
+            {% for contenido in contenidos %}
+                <li>
+                    <a href="{% url 'contenido_detail' contenido.id %}">{{ contenido.title }}</a>
+                    - {{ contenido.description }}
+                </li>
+            {% empty %}
+                <li>No hay contenidos en esta ruta de aprendizaje.</li>
+            {% endfor %}
+        </ul>
 
         <a href="{% url 'my_routes' %}" class="btn btn-primary">Volver a Mis Rutas</a>
     </div>
+</div>
 {% endblock %}

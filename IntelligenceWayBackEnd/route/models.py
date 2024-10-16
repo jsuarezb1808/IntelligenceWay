@@ -23,6 +23,8 @@ class Contenido(models.Model):
     link = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     contenidosPrevios = models.ManyToManyField('self', blank=True)
+    imagen = models.ImageField(upload_to='IntelligenceWay/static/contenidos/img/', null=True, blank=True, default='IntelligenceWay/static/contenidos/img/default_image.jpg')  # Imagen por defecto
+
     def __str__(self):
         return f'{self.title}'
     
