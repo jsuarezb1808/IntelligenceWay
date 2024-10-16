@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import InteresForm
 from .models import Contenido, RutaAprendizaje, Tag
-from .algoritmo import EstimacionEstudio
+from .algoritmo import VerificacionContenido,VerificacionTiempo
 from user.models import User
 
 class CreateRoute(View):
@@ -34,8 +34,8 @@ class CreateRoute(View):
             
             # Filtrar cursos que cumplen con las condiciones
             for curso in cursos:
-                if EstimacionEstudio.VerificacionContenido(curso, User.objects.get(id=user.id)) and \
-                   EstimacionEstudio.VerificacionTiempo(curso, User.objects.get(id=user.id)):
+                if VerificacionContenido(curso, User.objects.get(id=user.id)) and \
+                   VerificacionTiempo(curso, User.objects.get(id=user.id)):
                     contenidos_validos.append(curso)
             nombreTag = Tag.objects.get(id=interes).tagName
             # Crear la nueva ruta de aprendizaje

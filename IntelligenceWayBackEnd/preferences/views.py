@@ -5,7 +5,7 @@ from .forms import AprendizajeForm
 from django.views import View
 from django.views.generic.edit import UpdateView
 from .models import ModeloAprendizajeUsuario
-from route.algoritmo import EstimacionEstudio
+from route.algoritmo import PreferenciasContenido,PreferenciasTiempo
 
 
 
@@ -23,20 +23,25 @@ class FormularioView(LoginRequiredMixin, UpdateView):
 
 class RespuestasView(View):
     def post(self, request):
-        form = AprendizajeForm()
-        return render(request, 'respuestas_form.html', {'form': form})
-
+        form = AprendizajeForm(request.POST)
+        if form.is_valid():
+            # Guardar o procesar los datos del formulario aquí
+            # Aquí es donde deberías manejar el procesamiento del formulario y guardar las respuestas
+            print("Formulario válido:", form.cleaned_data)
+            return render(request, 'respuestas_form.html', {'form': form})
+        else:
+            print("Errores en el formulario:", form.errors)
+            return render(request, 'respuestas_form.html', {'form': form})
+        
     def get(self, request):
-            Estimacion=EstimacionEstudio
-
-
-
-            modelo=ModeloAprendizajeUsuario.objects.get(usuario=request.user)
+            modelo=ModeloAprendizajeUsuario.objects.get(usuario=self.request.user)
             # Obtener las respuestas del modelo de aprendizaje
             user_responses=modelo
             # Llamar algoritmo para obtener preferencias
-            preferencias_contenido = Estimacion.PreferenciasContenido(user_responses)
-            preferencias_tiempo = Estimacion.PreferenciasTiempo(user_responses)
+            print(modelo)
+            preferencias_contenido=PreferenciasContenido(user_responses)
+            
+            preferencias_tiempo=PreferenciasTiempo(user_responses)
 
             # Actualizar los campos del usuario
             
@@ -48,5 +53,6 @@ class RespuestasView(View):
             user.save()
 
             return redirect('profile')
+
 
        
