@@ -5,7 +5,7 @@ from .forms import AprendizajeForm
 from django.views import View
 from django.views.generic.edit import UpdateView
 from .models import ModeloAprendizajeUsuario
-from route.algoritmo import EstimacionEstudio
+from route.algoritmo import PreferenciasContenido,PreferenciasTiempo
 
 
 
@@ -22,33 +22,37 @@ class FormularioView(LoginRequiredMixin, UpdateView):
     
 
 class RespuestasView(View):
-    def get(self, request):
-        form = AprendizajeForm()
-        return render(request, 'respuestas_form.html', {'form': form})
-
     def post(self, request):
         form = AprendizajeForm(request.POST)
         if form.is_valid():
-            user_responses = ModeloAprendizajeUsuario.objects.get(usuario=self.request.user)
-            user_responses.q1 = form.cleaned_data['q1']
-            user_responses.q2 = form.cleaned_data['q2']
-            user_responses.q3 = form.cleaned_data['q3']
-            user_responses.q4 = form.cleaned_data['q4']
-            user_responses.q5 = form.cleaned_data['q5']
-            user_responses.q6 = form.cleaned_data['q6']
-            user_responses.q7 = form.cleaned_data['q7']
-            user_responses.q8 = form.cleaned_data['q8']
+            # Guardar o procesar los datos del formulario aquí
+            # Aquí es donde deberías manejar el procesamiento del formulario y guardar las respuestas
+            print("Formulario válido:", form.cleaned_data)
+            return render(request, 'respuestas_form.html', {'form': form})
+        else:
+            print("Errores en el formulario:", form.errors)
+            return render(request, 'respuestas_form.html', {'form': form})
+        
+    def get(self, request):
+            modelo=ModeloAprendizajeUsuario.objects.get(usuario=self.request.user)
+            # Obtener las respuestas del modelo de aprendizaje
+            user_responses=modelo
+            # Llamar algoritmo para obtener preferencias
+            print(modelo)
+            preferencias_contenido=PreferenciasContenido(user_responses)
+            
+            preferencias_tiempo=PreferenciasTiempo(user_responses)
 
-
-            # Llamar algoritmo
-            preferencias_contenido = EstimacionEstudio.PreferenciasContenido(user_responses.q1, user_responses.q2, user_responses.q3, user_responses.q5, user_responses.q6, user_responses.q7)
-            preferencias_tiempo = EstimacionEstudio.PreferenciasTiempo(user_responses.q4, user_responses.q8)
-
-            # Guarda los resultados en la tabla user
+            # Actualizar los campos del usuario
+            
             user = request.user
-            user.content = preferencias_contenido
-            user.tiempo = preferencias_tiempo
+            user.PreferenciasAudio = preferencias_contenido[1]
+            user.PreferenciasVideo = preferencias_contenido[2]
+            user.PreferenciasTexto = preferencias_contenido[0]
+            user.PreferenciasTiempo = preferencias_tiempo  # Asegúrate de que este campo existe
             user.save()
 
             return redirect('profile')
-        return render(request, 'respuestas_form.html', {'form': form})
+
+
+       
