@@ -3,9 +3,9 @@
 {% block content %}
     <div class="container">
         <h2>Rutas Favoritas</h2>
-        {% if page_obj %}
+        {% if rutas_favoritas %}
             <ul class="list-group">
-                {% for ruta in page_obj %}
+                {% for ruta in rutas_favoritas %}
                     <li class="list-group-item">
                         <h5>
                             <a href="{% url 'ruta_detail' ruta.id %}">{{ ruta.title }}</a>
@@ -17,11 +17,11 @@
 
             <!-- Botones de navegación -->
             <div class="d-flex justify-content-between mt-3">
-                {% if page_obj.has_previous %}
-                    <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% if rutas_favoritas.has_previous %}
+                    <a class="btn btn-secondary" href="?page={{ rutas_favoritas.previous_page_number }}">Anterior</a>
                 {% endif %}
-                {% if page_obj.has_next %}
-                    <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                {% if rutas_favoritas.has_next %}
+                    <a class="btn btn-primary" href="?page={{ rutas_favoritas.next_page_number }}">Siguiente</a>
                 {% endif %}
             </div>
         {% else %}

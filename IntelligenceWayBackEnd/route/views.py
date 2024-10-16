@@ -88,7 +88,7 @@ class CreateRoute(View, LoginRequiredMixin):
             ruta.contenidos.set(contenidos_validos)
             ruta.save()
 
-            return redirect("profile")
+            return redirect("my_routes")
         else:
             return render(request, self.template_name, viewData)
 
@@ -124,14 +124,15 @@ class RutaFavoritasView(ListView):
 
     def get_queryset(self):
         # Supongamos que tienes un método para obtener las rutas favoritas del usuario
-        return RutaAprendizaje.objects.filter(favorito=True, usuario=self.request.user)
+        return RutaAprendizaje.objects.filter(usuario=self.request.user)
 
     def get(self, request, *args, **kwargs):
+        # Obtener las rutas favoritas
         queryset = self.get_queryset()
         paginator = Paginator(queryset, 4)  # Muestra 4 rutas por página
         page_number = request.GET.get('page')
         rutas_favoritas = paginator.get_page(page_number)
-        return render(request, self.template_name, {'rutas_favoritas': rutas_favoritas})
+        return render(request, self.template_name, {'rutas_favoritas': rutas_favoritas, 'page_obj': rutas_favoritas})
 
 class RutaEliminarView(ListView):
     model = RutaAprendizaje

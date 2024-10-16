@@ -15,6 +15,20 @@
                     <p><strong>Enlace:</strong> 
                         <a href="{{ contenido.link }}" target="_blank">{{ contenido.link }}</a>
                     </p>
+                    
+                    <!-- Mostrar los tags -->
+                        {% if contenido.tags.all %}
+                            <ul class="list-inline">
+                                {% for tag in contenido.tags.all %}
+                                    <li class="list-inline-item">
+                                        <span class="badge badge-secondary" style="background-color: #007bff; color: white;">{{ tag.tagName }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span>No hay tags disponibles.</span>
+                        {% endif %}
+                    </p>
                 </div>
             </div>
             
