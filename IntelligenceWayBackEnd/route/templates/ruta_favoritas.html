@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Rutas Favoritas</h2>
+        {% if rutas_favoritas %}
+            <ul class="list-group">
+                {% for ruta in rutas_favoritas %}
+                    <li class="list-group-item">
+                        <h5>
+                            <a href="{% url 'ruta_detail' ruta.id %}">{{ ruta.title }}</a>
+                        </h5>
+                        <p>{{ ruta.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes rutas favoritas aún.</p>
+        {% endif %}
+    </div>
+{% endblock %}

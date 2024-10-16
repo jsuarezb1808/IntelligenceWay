@@ -28,7 +28,7 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item"></li>
-                        <a class="nav-link" href="#">Mis rutas</a>
+                        <a class="nav-link" href="{% url "my_routes" %}">Mis rutas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url "Crear_ruta" %}">Iniciar Ruta</a>

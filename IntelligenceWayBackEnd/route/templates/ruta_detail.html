@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{ route.title }}</h2>
+        <p>{{ route.description }}</p>
+        <!-- Agrega más detalles que quieras mostrar -->
+
+        <a href="{% url 'my_routes' %}" class="btn btn-primary">Volver a Mis Rutas</a>
+    </div>
+{% endblock %}

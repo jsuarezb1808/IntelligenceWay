@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Mis Rutas de Aprendizaje</h2>
+
+        {% if page_obj %}
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        {% for route in page_obj %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h5>
+                                    <a href="{% url 'ruta_detail' route.id %}">{{ route.title }}</a>
+                                </h5>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <a class="btn btn-secondary" href="{% url 'ruta_favoritas' %}">Ver Favoritas</a>
+                        </div>
+                        <div class="list-group-item">
+                            <a class="btn btn-danger" href="{% url 'ruta_eliminar' %}">Eliminar Ruta</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de navegación -->
+            <div class="d-flex justify-content-between mt-3">
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No tienes rutas de aprendizaje aún.</p>
+        {% endif %}
+    </div>
+{% endblock %}

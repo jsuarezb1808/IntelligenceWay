@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Selecciona una Ruta para Eliminar</h2>
+        {% if rutas %}
+            <ul class="list-group">
+                {% for ruta in rutas %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5>
+                            <a href="{% url 'ruta_detail' ruta.id %}">{{ ruta.title }}</a>
+                        </h5>
+                        <form method="POST" action="{% url 'ruta_confirmar_eliminar' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="route_id" value="{{ ruta.id }}">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes rutas disponibles para eliminar.</p>
+        {% endif %}
+    </div>
+{% endblock %}
