@@ -6,53 +6,46 @@ from django.views import View
 from django.views.generic.edit import UpdateView
 from .models import ModeloAprendizajeUsuario
 from route.algoritmo import PreferenciasContenido,PreferenciasTiempo
-
-
-
+from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 class FormularioView(LoginRequiredMixin, UpdateView):
     model = ModeloAprendizajeUsuario
     form_class = AprendizajeForm
     template_name = 'test.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('calculo_preferencias')
     
     def get_object(self):
         return ModeloAprendizajeUsuario.objects.get(usuario=self.request.user)
     
 
-class RespuestasView(View):
-    def post(self, request):
-        form = AprendizajeForm(request.POST)
-        if form.is_valid():
-            # Guardar o procesar los datos del formulario aquí
-            # Aquí es donde deberías manejar el procesamiento del formulario y guardar las respuestas
-            print("Formulario válido:", form.cleaned_data)
-            return render(request, 'respuestas_form.html', {'form': form})
-        else:
-            print("Errores en el formulario:", form.errors)
-            return render(request, 'respuestas_form.html', {'form': form})
+
+class CalculoPreferenciasView(TemplateView):
+    template_name = 'calculo_preferencias.html'  # Cambia el nombre según tu estructura
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Obtener el objeto asociado al usuario actual
+        usuario = self.request.user
+        modelo_usuario = get_object_or_404(ModeloAprendizajeUsuario, usuario=usuario)
+
+        # Realizar los cálculos
+        preferencias_contenido = PreferenciasContenido(modelo_usuario)
+        preferencias_tiempo = PreferenciasTiempo(modelo_usuario)
         
-    def get(self, request):
-            modelo=ModeloAprendizajeUsuario.objects.get(usuario=self.request.user)
-            # Obtener las respuestas del modelo de aprendizaje
-            user_responses=modelo
-            # Llamar algoritmo para obtener preferencias
-            print(modelo)
-            preferencias_contenido=PreferenciasContenido(user_responses)
-            
-            preferencias_tiempo=PreferenciasTiempo(user_responses)
+        # Guardar los valores en el modelo User
+        usuario.preferenciaAudio = preferencias_contenido[1]  # Audio
+        usuario.preferenciaVideo = preferencias_contenido[2]  # Video
+        usuario.preferenciaTexto = preferencias_contenido[0]   # Texto
+        usuario.tiempoAprendizaje = preferencias_tiempo     # Tiempo de aprendizaje
+        usuario.save()  # Guardar cambios en el usuario
 
-            # Actualizar los campos del usuario
-            
-            user = request.user
-            user.PreferenciasAudio = preferencias_contenido[1]
-            user.PreferenciasVideo = preferencias_contenido[2]
-            user.PreferenciasTexto = preferencias_contenido[0]
-            user.PreferenciasTiempo = preferencias_tiempo  # Asegúrate de que este campo existe
-            user.save()
+        # Pasar los resultados al contexto
+        context['preferencias_contenido'] = preferencias_contenido
+        context['preferencias_tiempo'] = preferencias_tiempo
 
-            return redirect('profile')
+        return context
 
 
        

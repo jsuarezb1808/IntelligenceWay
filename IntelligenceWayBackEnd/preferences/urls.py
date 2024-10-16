@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('update/', views.FormularioView.as_view(), name="preferencia-update"),
-    path('processing/', views.RespuestasView.as_view(), name="respuestas-update"),
+    path('calculo-preferencias/', views.CalculoPreferenciasView.as_view(), name='calculo_preferencias'),
 ]

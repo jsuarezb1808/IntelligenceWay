@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Preferencias de Aprendizaje</h2>
+        <h4>Tipo de Contenido Preferido</h4>
+        <ul>
+            <li>Texto: {{ preferencias_contenido.0 }}</li>
+            <li>Audio: {{ preferencias_contenido.1 }}</li>
+            <li>Video: {{ preferencias_contenido.2 }}</li>
+        </ul>
+        <h4>Tiempo de Estudio Preferido</h4>
+        <p>Tiempo: {{ preferencias_tiempo }}</p>
+    </div>
+{% endblock %}
