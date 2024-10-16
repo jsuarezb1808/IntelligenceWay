@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+
+        <div class="row">
+            <!-- Columna Izquierda: Detalles del Contenido -->
+            <div class="col-md-8">
+                <div class="">
+                    <h2 class="mb-4">{{ contenido.title }}</h2>
+                    <p><strong>Autor:</strong> {{ contenido.autor }}</p>
+                    <p><strong>Duración:</strong> {{ contenido.duracion }} minutos</p>
+                    <p><strong>Descripción:</strong> {{ contenido.description }}</p>
+                    <p><strong>Enlace:</strong> 
+                        <a href="{{ contenido.link }}" target="_blank">{{ contenido.link }}</a>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Columna Derecha: Imagen -->
+            <div class="col-md-4">
+                <img src="{{ contenido.imagen.url }}" alt="{{ contenido.title }}" class="img-fluid rounded" style="width:320px; height: auto;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Reporte debajo de ambas columnas -->
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-center">
+            <div class="text-center">
+                <h3>Reportar un problema</h3>
+
+                <!-- Mostrar mensajes de Django -->
+                {% if messages %}
+                    <div class="alert alert-info">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-danger">Enviar Reporte</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
