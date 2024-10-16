@@ -2,15 +2,18 @@
 
 {% block content %}
     <div class="container">
-        <h2>Selecciona una Ruta para Eliminar</h2>
-        {% if rutas %}
+        <h2>Eliminar Rutas</h2>
+        <a href="{% url 'my_routes' %}" class="btn btn-secondary mb-3">Regresar a Mis Rutas</a> <!-- Botón para regresar -->
+        
+        {% if page_obj %}
             <ul class="list-group">
-                {% for ruta in rutas %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                {% for ruta in page_obj %}
+                    <li class="list-group-item">
                         <h5>
                             <a href="{% url 'ruta_detail' ruta.id %}">{{ ruta.title }}</a>
                         </h5>
-                        <form method="POST" action="{% url 'ruta_confirmar_eliminar' %}">
+                        <p>{{ ruta.description }}</p>
+                        <form method="post" action="{% url 'ruta_confirmar_eliminar' %}">
                             {% csrf_token %}
                             <input type="hidden" name="route_id" value="{{ ruta.id }}">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -18,8 +21,18 @@
                     </li>
                 {% endfor %}
             </ul>
+
+            <!-- Botones de navegación -->
+            <div class="d-flex justify-content-between mt-3">
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                {% endif %}
+            </div>
         {% else %}
-            <p>No tienes rutas disponibles para eliminar.</p>
+            <p>No tienes rutas para eliminar.</p>
         {% endif %}
     </div>
 {% endblock %}

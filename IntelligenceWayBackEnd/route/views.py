@@ -8,6 +8,7 @@ from .algoritmo import EstimacionEstudio
 from user.models import User
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 class CreateRoute(View, LoginRequiredMixin):
     template_name = "form.html"
@@ -82,13 +83,21 @@ class RutaFavoritasView(ListView):
     context_object_name = 'rutas_favoritas'
 
     def get_queryset(self):
-        # Filtrar las rutas favoritas del usuario
-        return RutaAprendizaje.objects.filter(usuario=self.request.user, favorito=True)
+        # Supongamos que tienes un método para obtener las rutas favoritas del usuario
+        return RutaAprendizaje.objects.filter(favorito=True, usuario=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        paginator = Paginator(queryset, 4)  # Muestra 4 rutas por página
+        page_number = request.GET.get('page')
+        rutas_favoritas = paginator.get_page(page_number)
+        return render(request, self.template_name, {'rutas_favoritas': rutas_favoritas})
 
 class RutaEliminarView(ListView):
     model = RutaAprendizaje
     template_name = 'ruta_eliminar.html'
     context_object_name = 'rutas'
+    paginate_by = 4
 
     def get_queryset(self):
         # Mostrar las rutas del usuario para eliminar
