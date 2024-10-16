@@ -45,7 +45,6 @@ class EstimacionEstudio():
     
         values=[texto,audio,video]
         return values
-
     
     #se usa para identificar los valores correspondientes a el tiempo de estudio de la persona
     def PreferenciasTiempo(self,obj):
