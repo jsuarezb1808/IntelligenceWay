@@ -6,7 +6,7 @@
         <form method="post" id="questionForm">
             {% csrf_token %}
             
-            <!-- Sección de preguntas -->
+            <!-- Question section -->
             <div class="question" id="question-1">
                 {{ form.q1.label_tag }} <br>
                 {{ form.q1 }}
@@ -47,13 +47,13 @@
                 {{ form.q8 }}
             </div>
 
-            <!-- Botones de navegación -->
+            <!-- Navigation buttons -->
             <div class="d-flex justify-content-between mt-3">
                 <button type="button" id="prevBtn" class="btn btn-secondary" onclick="showPrevQuestion()" style="display:none;">Anterior</button>
                 <button type="button" id="nextBtn" class="btn btn-primary" onclick="showNextQuestion()">Siguiente</button>
             </div>
 
-            <!-- Botón de Guardar, solo visible al final -->
+            <!-- Save button, only visible at the end -->
             <div class="text-center mt-3" id="saveBtn" style="display:none;">
                 <input class="btn btn-success" type="submit" value="Guardar">
             </div>
@@ -63,7 +63,7 @@
 
 <script>
     var currentQuestion = 1;
-    var totalQuestions = 8;  // Cambiado a 8 preguntas
+    var totalQuestions = 8;  // Changed to 8 questions
 
     function showNextQuestion() {
         document.getElementById('question-' + currentQuestion).style.display = 'none';
@@ -80,7 +80,7 @@
     }
 
     function updateButtons() {
-        // Mostrar/ocultar botones de navegación
+        // Show/hide navigation buttons
         document.getElementById('prevBtn').style.display = currentQuestion > 1 ? 'inline-block' : 'none';
         document.getElementById('nextBtn').style.display = currentQuestion < totalQuestions ? 'inline-block' : 'none';
         document.getElementById('saveBtn').style.display = currentQuestion == totalQuestions ? 'block' : 'none';

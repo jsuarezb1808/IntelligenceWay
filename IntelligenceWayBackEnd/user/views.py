@@ -13,14 +13,14 @@ from .forms import CustomUserCreationForm, LoginForm
 class RegisterView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'register.html'
-    success_url = reverse_lazy('preferencia_update')  # Redirigir a la página de preferencia después del registro
+    success_url = reverse_lazy('preferencia_update')  # Redirect to the preference page after registration
 
     def form_valid(self, form):
-        # Guardar el nuevo usuario
+        # Save the new user
         user = form.save()
-        # Iniciar sesión al usuario automáticamente
+        # Automatically log in the user
         login(self.request, user)
-        # Redirigir a la página de actualización de preferencias
+        # Redirect to the preference update page
         return redirect(self.success_url)
 
 class LoginView(View):

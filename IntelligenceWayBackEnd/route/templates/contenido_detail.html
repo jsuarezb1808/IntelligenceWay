@@ -5,7 +5,7 @@
     <div class="card shadow-sm p-4">
 
         <div class="row">
-            <!-- Columna Izquierda: Detalles del Contenido -->
+            <!-- Left Column: Content Details -->
             <div class="col-md-8">
                 <div class="">
                     <h2 class="mb-4">{{ contenido.title }}</h2>
@@ -16,7 +16,7 @@
                         <a href="{{ contenido.link }}" target="_blank">{{ contenido.link }}</a>
                     </p>
                     
-                    <!-- Mostrar los tags -->
+                    <!-- Show the tags -->
                         {% if contenido.tags.all %}
                             <ul class="list-inline">
                                 {% for tag in contenido.tags.all %}
@@ -26,26 +26,26 @@
                                 {% endfor %}
                             </ul>
                         {% else %}
-                            <span>No hay tags disponibles.</span>
+                            <span>No hay tags disponibles..</span>
                         {% endif %}
                     </p>
                 </div>
             </div>
             
-            <!-- Columna Derecha: Imagen -->
+            <!-- Right Column: Image -->
             <div class="col-md-4">
                 <img src="{{ contenido.imagen.url }}" alt="{{ contenido.title }}" class="img-fluid rounded" style="width:320px; height: auto;">
             </div>
         </div>
     </div>
 
-    <!-- Reporte debajo de ambas columnas -->
+    <!-- Report below both columns -->
     <div class="row mt-4">
         <div class="col-12 d-flex justify-content-center">
             <div class="text-center">
-                <h3>Reportar un problema</h3>
+                <h3>Reportar problema</h3>
 
-                <!-- Mostrar mensajes de Django -->
+                <!-- Show Django messages -->
                 {% if messages %}
                     <div class="alert alert-info">
                         {% for message in messages %}
@@ -57,7 +57,7 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-danger">Enviar Reporte</button>
+                    <button type="submit" class="btn btn-danger">Enviar</button>
                 </form>
             </div>
         </div>

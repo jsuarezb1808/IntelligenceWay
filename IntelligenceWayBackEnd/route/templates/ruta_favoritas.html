@@ -15,7 +15,7 @@
                 {% endfor %}
             </ul>
 
-            <!-- Botones de navegación -->
+            <!-- Navigation buttons -->
             <div class="d-flex justify-content-between mt-3">
                 {% if rutas_favoritas.has_previous %}
                     <a class="btn btn-secondary" href="?page={{ rutas_favoritas.previous_page_number }}">Anterior</a>
@@ -28,7 +28,7 @@
             <p>No tienes rutas favoritas aún.</p>
         {% endif %}
 
-        <!-- Botón para regresar a Mis Rutas -->
+        <!-- Return to your routes -->
         <div class="mt-3">
             <a href="{% url 'my_routes' %}" class="btn btn-secondary">Regresar a Mis Rutas</a>
         </div>

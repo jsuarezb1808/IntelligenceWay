@@ -4,7 +4,7 @@
         <div class="card shadow-sm p-4">
             <h2 class="mb-4 text-center">Selecciona tu interes</h2>
 
-            <!-- Mostrar errores si los hay -->
+            <!-- Display errors -->
             {% if form.errors %}
             <div class="alert alert-danger" role="alert">
                 <ul class="mb-0">
@@ -17,7 +17,7 @@
             </div>
             {% endif %}
 
-            <!-- Formulario -->
+            <!-- Form -->
             <form method="POST">
                 {% csrf_token %}
                 <div class="mb-3">

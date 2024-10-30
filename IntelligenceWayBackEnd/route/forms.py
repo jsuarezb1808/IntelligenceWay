@@ -12,7 +12,7 @@ class InteresForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(InteresForm, self).__init__(*args, **kwargs)
-        # Obtener las opciones desde el modelo Categoria
+        # Get option from Tag model
         self.fields['interes'].choices = [(interes.id, interes.tagName) for interes in Tag.objects.all()]
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
@@ -24,7 +24,7 @@ class ReporteForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({'class': 'form-control'})
     class Meta:
         model = Reporte
-        fields = ['descripcion']  # Solo permitirá agregar la descripción
+        fields = ['descripcion']  
         labels = {
             'descripcion': 'Descripción del problema',
         }

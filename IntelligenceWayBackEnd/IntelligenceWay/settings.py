@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0p9botxkb-2&clnxzqe)*d!@h+fil6u3yq%cgcn(xa@mfo8-+)'
+SECRET_KEY = 'django-insecure-0p9botxkb-2&clnxzqe)*d!@h+fil6u3yq%cgcn(xa@mfo8-+)'  
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'user.User'
-LOGIN_URL = '/user/login/'  # Cambia esto para que apunte a tu URL de inicio de sesión
+LOGIN_URL = '/user/login/'  # Change this to point to your login URL
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -128,12 +128,12 @@ import os
 
 STATIC_URL = '/static/'
 
-# Ajusta la ruta para que apunte al directorio correcto
+# Adjust the path to point to the correct directory
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'IntelligenceWay', 'static'),  # Ruta relativa a BASE_DIR
+    os.path.join(BASE_DIR, 'IntelligenceWay', 'static'),  # Relative path to BASE_DIR
 ]
 
-# Para producción, si es necesario
+# For production, if necessary
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type

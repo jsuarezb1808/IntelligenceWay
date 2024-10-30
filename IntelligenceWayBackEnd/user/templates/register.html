@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <!-- Sección Registrarse -->
+    <!-- Register section -->
     <section id="register" class="py-5">
         <div class="container">
             <div class="row align-items-center">
-                <!-- Columna de la imagen -->
+                <!-- Column for the image -->
                 <div class="col-lg-6 mb-4 text-center">
                     <img src="{% static '/img/register.png' %}" alt="Regístrate" class="img-fluid rounded">
                 </div>
 
-                <!-- Columna del formulario -->
+                <!-- Column for the form -->
                 <div class="col-lg-6 mb-4">
                     <h2>Regístrate</h2>
                     {% if form.errors %}
@@ -27,7 +27,7 @@
                         <div class="mb-3 form-group container">
                             {{ form }}
                         </div>
-                        <!-- Botón centrado -->
+                        <!-- Centered button -->
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-success btn-primary">Registrarse</button>
                         </div>

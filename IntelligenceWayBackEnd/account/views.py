@@ -5,10 +5,10 @@ from preferences.models import ModeloAprendizajeUsuario
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'profile.html'
     
-    # Para pasar el contexto al template, puedes sobrescribir el método get_context_data
+    # To pass the context to the template, you can override the get_context_data method
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         usuario = self.request.user
-        context['user'] = usuario  # Pasamos el usuario autenticado al template
+        context['user'] = usuario  # Pass the authenticated user to the template
         context['test'] = ModeloAprendizajeUsuario.objects.get(usuario=usuario)
         return context

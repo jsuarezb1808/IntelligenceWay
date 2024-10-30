@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <h2>Eliminar Rutas</h2>
-        <a href="{% url 'my_routes' %}" class="btn btn-secondary mb-3">Regresar a Mis Rutas</a> <!-- Botón para regresar -->
+        <a href="{% url 'my_routes' %}" class="btn btn-secondary mb-3">Regresar a Mis Rutas</a> <!-- Return button -->
         
         {% if page_obj %}
             <ul class="list-group">
@@ -22,7 +22,7 @@
                 {% endfor %}
             </ul>
 
-            <!-- Botones de navegación -->
+            <!-- Navigation buttons -->
             <div class="d-flex justify-content-between mt-3">
                 {% if page_obj.has_previous %}
                     <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>

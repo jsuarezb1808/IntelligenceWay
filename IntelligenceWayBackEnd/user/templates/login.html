@@ -4,7 +4,7 @@
 <section id="register" class="py-5">
     <div class="container">
         <div class="row align-items-center">
-            <!-- Columna del formulario -->
+            <!-- Column for the form -->
             <div class="col-lg-6 mb-4">
                 <h2>Ingresa con tu cuenta</h2>
                 {% if form.errors %}
@@ -21,14 +21,14 @@
                     <div class="mb-3">
                         {{ form.as_p }}
                     </div>
-                    <!-- Botón centrado -->
+                    <!-- Centered button -->
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-success">Ingresar</button>
                     </div>
                 </form>
             </div>
 
-            <!-- Columna de la imagen -->
+            <!-- Column for the image -->
             <div class="col-lg-6 mb-4 text-center">
                 <img src="{% static 'img/login.png' %}" alt="Ingresa con tu cuenta" class="img-fluid rounded">
             </div>

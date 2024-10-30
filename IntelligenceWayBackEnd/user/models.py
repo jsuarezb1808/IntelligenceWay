@@ -1,11 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
-# Manager para el modelo User
+# Manager for the User model
 class MyUserManager(BaseUserManager):
     def create_user(self, email, nombre, apellido, password=None):
         if not email:
-            raise ValueError('El usuario debe tener un correo electrónico')
+            raise ValueError('The user must have an email address')
 
         email = self.normalize_email(email)
         user = self.model(email=email, nombre=nombre, apellido=apellido)
@@ -22,7 +22,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 
-# Modelo de usuario personalizado
+# Custom user model
 class User(AbstractBaseUser, PermissionsMixin):
     ROLES = [
         ('admin', 'Admin'),
@@ -36,10 +36,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     content = models.FloatField(default=1)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    preferenciaAudio=models.IntegerField(null=True)
-    preferenciaVideo=models.IntegerField(null=True)
-    preferenciaTexto=models.IntegerField(null=True)
-    tiempoAprendizaje=models.IntegerField(null=True)
+    preferenciaAudio = models.IntegerField(null=True)
+    preferenciaVideo = models.IntegerField(null=True)
+    preferenciaTexto = models.IntegerField(null=True)
+    tiempoAprendizaje = models.IntegerField(null=True)
     
     objects = MyUserManager()
 
