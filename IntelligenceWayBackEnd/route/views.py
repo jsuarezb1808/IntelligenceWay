@@ -29,7 +29,7 @@ class ContenidoDetailView(FormMixin, DetailView):
         if form.is_valid():
             # Create the report
             reporte = form.save(commit=False)
-            reporte.IdContenido = self.object
+            reporte.idContenido = self.object
             reporte.save()
             messages.success(request, 'Reporte enviado exitosamente.')  # Success message
             return self.form_valid(form)
