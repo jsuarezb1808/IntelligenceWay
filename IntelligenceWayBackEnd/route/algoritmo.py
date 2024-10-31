@@ -75,20 +75,14 @@ def VerificacionContenido(curso, usuario):
 
 # Used to verify that the duration of the content is correct; receives a user object
 # and the content object, returns true or false to indicate if it is valid or not
-def VerificacionTiempo(curso,usuario):
-    duracion= curso.duracion
-    duracion_predilecta= usuario.tiempoAprendizaje
-    Valido=True
-    if (30 > duracion ) and (duracion_predilecta==1):
-        return Valido
-    elif (30 <= duracion < 60 ) and (duracion_predilecta==2):
-         return Valido
-    elif (30 <= duracion < 60 ) and (duracion_predilecta==3):
-         return Valido
-    elif (90 <= duracion < 120 ) and (duracion_predilecta==4):
-         return Valido
-    elif (90 <= duracion < 120 ) and (duracion_predilecta==5):
-         return Valido
-    else:
-        valido=False
-        return Valido
+def VerificacionTiempo(curso, usuario):
+    duracion = curso.duracion
+    duracion_predilecta = usuario.tiempoAprendizaje
+    print(duracion)
+    # Mapear la duración de acuerdo a la preferencia
+    if (duracion < 30 and duracion_predilecta == 1) or \
+       (30 <= duracion < 60 and duracion_predilecta in [2, 3]) or \
+       (90 <= duracion < 120 and duracion_predilecta in [4, 5]):
+        return True
+
+    return False
