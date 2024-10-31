@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 
 {% block content %}
 <div class="container mt-5">
@@ -12,6 +13,16 @@
                 <li>
                     <a href="{% url 'contenido_detail' contenido.id %}">{{ contenido.title }}</a>
                     - {{ contenido.description }}
+                    
+                    {# Verificar si el contenido está marcado como completado para el usuario actual #}
+                    {% if progreso_dict|get_item:contenido.id %}
+                        <span class="badge bg-success">Completado</span>
+                    {% else %}
+                        <form action="{% url 'actualizar_progreso_contenido' route.id contenido.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-primary">Marcar como completado</button>
+                        </form>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>No hay contenidos en esta ruta de aprendizaje.</li>

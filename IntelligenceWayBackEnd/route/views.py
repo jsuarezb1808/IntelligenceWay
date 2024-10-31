@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import InteresForm
-from .models import Contenido, RutaAprendizaje, Tag, Favorito
+from .models import Contenido, RutaAprendizaje, Tag, Favorito, ProgresoContenido
 from .algoritmo import VerificacionContenido, VerificacionTiempo
 from user.models import User
 from django.shortcuts import redirect, get_object_or_404
@@ -52,39 +52,45 @@ class CreateRoute(View, LoginRequiredMixin):
         viewData = {"form": form}
         
         if form.is_valid():
-            # Get the interest from the form
+            # Obtén el interés del formulario
             interes = form.cleaned_data['interes']
 
-            # Get the courses that match the interest
+            # Obtén los cursos que coinciden con el interés
             cursos = Contenido.objects.filter(tags=interes)
 
-            # Initialize the list of valid contents
+            # Inicializa la lista de contenidos válidos
             contenidos_validos = []
 
             user = request.user
             
-            # Filter courses that meet the conditions
+            # Filtra los cursos que cumplen con las condiciones
             for curso in cursos:
                 if VerificacionContenido(curso, User.objects.get(id=user.id)) and \
                    VerificacionTiempo(curso, User.objects.get(id=user.id)):
                     contenidos_validos.append(curso)
+            
             nombreTag = Tag.objects.get(id=interes).tagName
-            # Create the new learning route
+
+            # Crea la nueva ruta de aprendizaje
             ruta = RutaAprendizaje(
                 title=nombreTag,
                 description=f"Una ruta enfocada en conocimientos relacionados a {nombreTag}",
-                usuario=request.user
+                usuario=user
             )
             ruta.save()
 
-            # Assign the contents to the route using set()
-            ruta.contenidos.set(contenidos_validos)
-            ruta.save()
+            # Asocia manualmente cada contenido con la ruta de aprendizaje mediante ProgresoContenido
+            for contenido in contenidos_validos:
+                ProgresoContenido.objects.create(
+                    usuario=user,
+                    ruta=ruta,
+                    contenido=contenido,
+                    completado=False
+                )
 
             return redirect("my_routes")
         else:
             return render(request, self.template_name, viewData)
-
 class MyRoutes(ListView):
     model = RutaAprendizaje
     template_name = 'my_routes.html'  # Change this to the path to your template
@@ -97,15 +103,48 @@ class MyRoutes(ListView):
 
 class RutaDetail(LoginRequiredMixin, DetailView):
     model = RutaAprendizaje
-    template_name = 'ruta_detail.html'  # Make sure this is the path to your detail template
+    template_name = 'ruta_detail.html'
     context_object_name = 'route'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add the contents of the route to the context
         context['contenidos'] = self.object.contenidos.all()
+        
+        # Crear un diccionario para el progreso
+        progreso_dict = {}
+        for contenido in context['contenidos']:
+            # Verifica si hay un progreso registrado para el contenido del usuario actual
+            progreso = ProgresoContenido.objects.filter(usuario=self.request.user, contenido=contenido).first()
+            if progreso:
+                progreso_dict[contenido.id] = progreso.completado  # Solo guarda el estado de completado
+            else:
+                progreso_dict[contenido.id] = False  # Si no hay progreso, se considera no completado
+                
+        context['progreso_dict'] = progreso_dict
         return context
 
+
+
+class ActualizarProgresoContenido(LoginRequiredMixin, View):
+    def post(self, request, ruta_id, contenido_id):
+        # Obtener el contenido y el usuario actual
+        contenido = Contenido.objects.get(id=contenido_id)
+        ruta = RutaAprendizaje.objects.get(id=ruta_id, usuario=request.user)
+
+        # Actualizar el progreso del contenido para el usuario
+        progreso, created = ProgresoContenido.objects.get_or_create(
+            usuario=request.user,
+            contenido=contenido,
+            ruta=ruta
+        )
+        
+        # Marcar como completado
+        progreso.completado = True
+        progreso.save()
+
+        return redirect('ruta_detail', pk=ruta.id)
+    
 class RutaFavoritasView(ListView):
     model = RutaAprendizaje
     template_name = 'ruta_favoritas.html'
