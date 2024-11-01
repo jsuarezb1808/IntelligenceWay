@@ -2,12 +2,12 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card shadow-sm p-4">
-
+    <!-- Contenedor para el contenido principal -->
+    <div class="card shadow-sm p-4" id="contenidoContainer">
         <div class="row">
             <!-- Left Column: Content Details -->
             <div class="col-md-8">
-                <div class="">
+                <div>
                     <h2 class="mb-4">{{ contenido.title }}</h2>
                     <p><strong>Autor:</strong> {{ contenido.autor }}</p>
                     <p><strong>Duración:</strong> {{ contenido.duracion }} minutos</p>
@@ -17,18 +17,17 @@
                     </p>
                     
                     <!-- Show the tags -->
-                        {% if contenido.tags.all %}
-                            <ul class="list-inline">
-                                {% for tag in contenido.tags.all %}
-                                    <li class="list-inline-item">
-                                        <span class="badge badge-secondary" style="background-color: #007bff; color: white;">{{ tag.tagName }}</span>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <span>No hay tags disponibles..</span>
-                        {% endif %}
-                    </p>
+                    {% if contenido.tags.all %}
+                        <ul class="list-inline">
+                            {% for tag in contenido.tags.all %}
+                                <li class="list-inline-item">
+                                    <span class="badge badge-secondary" style="background-color: #007bff; color: white;">{{ tag.tagName }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <span>No hay tags disponibles.</span>
+                    {% endif %}
                 </div>
             </div>
             
@@ -37,30 +36,50 @@
                 <img src="{{ contenido.imagen.url }}" alt="{{ contenido.title }}" class="img-fluid rounded" style="width:320px; height: auto;">
             </div>
         </div>
+
+        <!-- Button to show report form -->
+        <div class="text-center mt-4">
+            <button class="btn btn-outline-danger" onclick="showReportForm()">Reportar problema</button>
+        </div>
     </div>
 
-    <!-- Report below both columns -->
-    <div class="row mt-4">
-        <div class="col-12 d-flex justify-content-center">
-            <div class="text-center">
-                <h3>Reportar problema</h3>
+    <!-- Contenedor para el formulario de reporte, inicialmente oculto -->
+    <div class="card shadow-sm p-4" id="reportContainer" style="display: none;">
+        <div class="text-center">
+            <h3>Reportar problema</h3>
 
-                <!-- Show Django messages -->
-                {% if messages %}
-                    <div class="alert alert-info">
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
+            <!-- Show Django messages -->
+            {% if messages %}
+                <div class="alert alert-info">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Formulario de reporte -->
+             <div>
+                 <form method="post">
+                     {% csrf_token %}
+                     {{ form.as_p }}
+                     <button type="submit" class="btn btn-danger">Enviar</button>
+                     <button type="button" class="btn btn-secondary mt-2" onclick="hideReportForm()">Regresar</button>
                     </div>
-                {% endif %}
-                
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-danger">Enviar</button>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
+<!-- JavaScript para mostrar/ocultar contenedores -->
+<script>
+    function showReportForm() {
+        document.getElementById('contenidoContainer').style.display = 'none';
+        document.getElementById('reportContainer').style.display = 'block';
+    }
+
+    function hideReportForm() {
+        document.getElementById('reportContainer').style.display = 'none';
+        document.getElementById('contenidoContainer').style.display = 'block';
+    }
+</script>
 {% endblock %}

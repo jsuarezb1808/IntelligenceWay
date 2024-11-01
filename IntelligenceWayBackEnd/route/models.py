@@ -53,10 +53,27 @@ class ProgresoContenido(models.Model):
         return f"{self.usuario.username} - {self.contenido.title} - {'Completado' if self.completado else 'En progreso'}"
 
 class Reporte(models.Model):
-    idContenido = models.ForeignKey(Contenido, default="Usuario borrado", on_delete=models.SET_DEFAULT)
-    descripcion = models.TextField(max_length=255)
+    ERROR_CHOICES = [
+        ('gramatica_ortografia', 'Error de gramática o ortografía'),
+        ('enlace_roto', 'Enlace roto'),
+        ('error_formato', 'Error de formato'),
+        ('imagen_video_no_visible', 'Imágenes o videos no visibles'),
+        ('contenido_incorrecto', 'Error en el contenido'),
+        ('problemas_audio', 'Problemas de audio'),
+        ('problema_navegacion', 'Problema de navegación'),
+        ('contenido_no_accesible', 'Contenido no accesible'),
+        ('error_ejercicio', 'Error en ejercicios o cuestionarios'),
+        ('tiempo_carga', 'Tiempo de carga lento'),
+        ('compatibilidad', 'Problemas de compatibilidad'),
+        ('error_traduccion', 'Error de traducción'),
+    ]
+
+    idContenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
+    descripcion = models.CharField(max_length=50, choices=ERROR_CHOICES)
+
     def __str__(self):
-        return self.idContenido.title
+        return f"{self.idContenido.title} - {self.get_descripcion_display()}"
+
     
 class Favorito(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)

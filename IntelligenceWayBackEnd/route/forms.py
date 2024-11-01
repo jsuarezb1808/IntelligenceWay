@@ -22,12 +22,10 @@ class ReporteForm(forms.ModelForm):
         super(ReporteForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = Reporte
         fields = ['descripcion']  
         labels = {
-            'descripcion': 'Descripción del problema',
-        }
-        widgets = {
-            'descripcion': forms.Textarea(attrs={'rows': 4}),
+            'descripcion': 'Tipo de problema',
         }
