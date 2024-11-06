@@ -109,7 +109,7 @@ class RutaDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add the contents of the route to the context
+        # Agregar los contenidos de la ruta al contexto
         context['contenidos'] = self.object.contenidos.all()
         
         # Crear un diccionario para el progreso
@@ -121,9 +121,24 @@ class RutaDetail(LoginRequiredMixin, DetailView):
                 progreso_dict[contenido.id] = progreso.completado  # Solo guarda el estado de completado
             else:
                 progreso_dict[contenido.id] = False  # Si no hay progreso, se considera no completado
-                
+        
         context['progreso_dict'] = progreso_dict
+
+        # Verificar si el usuario tiene un favorito
+        favorito = Favorito.objects.filter(usuario=self.request.user).first()
+        idRuta = self.get_object().id
+        ruta_actual = RutaAprendizaje.objects.get(id=idRuta)
+        if ruta_actual in favorito.lista.all():
+            # Verificar si el contenido está en los favoritos
+            contenido_en_favoritos = True
+        else:
+            contenido_en_favoritos = False
+
+        # Pasar el estado de favoritos a la plantilla
+        context['contenido_en_favoritos'] = contenido_en_favoritos
+
         return context
+
 
 
 
@@ -193,3 +208,26 @@ class RutaConfirmarEliminarView(View):
         ruta.delete()
         messages.success(request, 'Ruta eliminada exitosamente.')
         return redirect('my_routes')  # Redirect to the my routes view
+
+
+class AgregarAFavoritosView(View):
+    def post(self, request, ruta_id):
+        usuario = request.user
+        contenido = RutaAprendizaje.objects.get(id=ruta_id)
+        
+        # Verificar si el usuario tiene un favorito
+        favorito = Favorito.objects.filter(usuario=usuario).first()
+        if favorito:
+            if contenido in favorito.lista.all():  # Usamos 'lista' en lugar de 'rutas'
+                favorito.lista.remove(contenido)
+            else:
+                favorito.lista.add(contenido)
+        else:
+            # Si el usuario no tiene un objeto Favorito, crearlo
+            nuevo_favorito = Favorito(usuario=usuario)
+            nuevo_favorito.save()
+            nuevo_favorito.lista.add(contenido)  # Usamos 'lista' en lugar de 'rutas'
+
+        # Redirigir de nuevo a la misma página de detalle de ruta
+        return redirect('ruta_detail', pk=ruta_id)
+
