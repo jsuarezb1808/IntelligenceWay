@@ -80,11 +80,21 @@ def VerificacionTiempo(curso,usuario):
     duracion= curso.duracion
     duracion_predilecta= usuario.tiempoAprendizaje
     Valido=True
-    if duracion == duracion_predilecta:
+    if (30 > duracion ) and (duracion_predilecta==1):
         return Valido
+    elif (30 <= duracion < 60 ) and (duracion_predilecta==2):
+         return Valido
+    elif (30 <= duracion < 60 ) and (duracion_predilecta==3):
+         return Valido
+    elif (90 <= duracion < 120 ) and (duracion_predilecta==4):
+         return Valido
+    elif (90 <= duracion < 120 ) and (duracion_predilecta==5):
+         return Valido
     else:
         valido=False
         return Valido
+    
+
     
 
  

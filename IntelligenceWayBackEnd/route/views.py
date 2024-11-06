@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, redirect
 from django.views import View
@@ -132,6 +134,24 @@ class RutaFavoritasView(ListView):
         page_number = request.GET.get('page')
         rutas_favoritas = paginator.get_page(page_number)
         return render(request, self.template_name, {'rutas_favoritas': rutas_favoritas})
+    
+#-----------------------------------------------------------
+
+class RouteDeleteFavorite(ListView):
+    model=RutaAprendizaje
+    template_name='favoritos_eliminar.html'
+    
+    def get_queryset(self):
+        return RutaAprendizaje.objects.filter(favorito=True, usuario=self.request.user)
+    
+class RouteConfirmDeleteFavorite(View):
+    def post(self,request,*args,**kwargs):
+        favorite_id=request.POST.get('favorite_id')
+        favorite=get_object_or_404(RutaAprendizaje, id=favorite_id, usuario=self.request.user)
+        favorite.delete()
+        messages.success(request,'ruta fue eliminada de favoritos con exito')
+        return redirect('my_routes')  # Redirigir a la vista de mis rutas
+#-----------------------------------------------------------
 
 class RutaEliminarView(ListView):
     model = RutaAprendizaje
