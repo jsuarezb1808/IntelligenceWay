@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load custom_filters %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static "css/modal.css"%}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <div class="container mt-5">
     <div class="card shadow-sm p-4">
         <h2 class="mb-4 text-center">{{ route.title }}</h2>
@@ -11,17 +13,20 @@
         <ul>
             {% for contenido in contenidos %}
                 <li>
-                    <a href="{% url 'contenido_detail' contenido.id %}">{{ contenido.title }}</a>
-                    - {{ contenido.description }}
+                    <a href="{% url 'contenido_detail' contenido.id %}">{{ contenido.title }}</a> - {{ contenido.description }}
                     
-                    {# Verificar si el contenido está marcado como completado para el usuario actual #}
                     {% if progreso_dict|get_item:contenido.id %}
                         <span class="badge bg-success">Completado</span>
-                    {% else %}
+                        
+                        <!-- Botón para desmarcar completado -->
                         <form action="{% url 'actualizar_progreso_contenido' route.id contenido.id %}" method="post" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-primary">Marcar como completado</button>
+                            <input type="hidden" name="desmarcar" value="true">
+                            <button type="submit" class="btn btn-sm btn-danger">Desmarcar</button>
                         </form>
+                    {% else %}
+                        <!-- Botón para marcar como completado (abre el modal) -->
+                        <button onclick="openModal('{{ route.id }}', '{{ contenido.id }}')" class="btn btn-sm btn-primary">Marcar como completado</button>
                     {% endif %}
                 </li>
             {% empty %}
@@ -32,4 +37,51 @@
         <a href="{% url 'my_routes' %}" class="btn btn-primary">Volver a Mis Rutas</a>
     </div>
 </div>
+
+<!-- Modal de calificación -->
+<div id="calificacion-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h4>Califica este contenido</h4>
+        <p>Elige una calificación en estrellas y confirma para marcar como completado.</p>
+
+        <form id="calificacion-form" action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="marcar" value="true">
+            <label for="calificacion">Calificación:</label>
+            <select name="calificacion" id="calificacion" required>
+                <option value="1">1 estrella</option>
+                <option value="2">2 estrellas</option>
+                <option value="3">3 estrellas</option>
+                <option value="4">4 estrellas</option>
+                <option value="5">5 estrellas</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+            <button type="button" onclick="closeModal()" class="btn btn-secondary">Cancelar</button>
+        </form>
+    </div>
+</div>
+<script>
+    function openModal(rutaId, contenidoId) {
+        const modal = document.getElementById("calificacion-modal");
+        modal.style.display = "flex";
+    
+        const form = document.getElementById("calificacion-form");
+        // Construir la URL de la vista 'actualizar_progreso_contenido'
+        form.action = "{% url 'actualizar_progreso_contenido' ruta_id=0 contenido_id=0 %}".replace('0', rutaId).replace('0', contenidoId);
+    }
+    
+
+    function closeModal() {
+        const modal = document.getElementById("calificacion-modal");
+        modal.style.display = "none";
+    }
+
+    // Cerrar el modal si se hace clic fuera de él
+    window.onclick = function(event) {
+        const modal = document.getElementById("calificacion-modal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
 {% endblock %}

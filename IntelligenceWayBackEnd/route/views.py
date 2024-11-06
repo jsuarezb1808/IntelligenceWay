@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 from django.views.generic.edit import FormMixin
 from .forms import ReporteForm
 from django.urls import reverse
+from django.utils import timezone
 
 class ContenidoDetailView(FormMixin, DetailView):
     model = Contenido
@@ -128,22 +129,32 @@ class RutaDetail(LoginRequiredMixin, DetailView):
 
 class ActualizarProgresoContenido(LoginRequiredMixin, View):
     def post(self, request, ruta_id, contenido_id):
-        # Obtener el contenido y el usuario actual
-        contenido = Contenido.objects.get(id=contenido_id)
-        ruta = RutaAprendizaje.objects.get(id=ruta_id, usuario=request.user)
+        # Obtener el contenido y la ruta para el usuario actual
+        contenido = get_object_or_404(Contenido, id=contenido_id)
+        ruta = get_object_or_404(RutaAprendizaje, id=ruta_id, usuario=request.user)
 
-        # Actualizar el progreso del contenido para el usuario
+        # Obtener o crear el progreso del contenido para el usuario en la ruta específica
         progreso, created = ProgresoContenido.objects.get_or_create(
             usuario=request.user,
             contenido=contenido,
             ruta=ruta
         )
-        
-        # Marcar como completado
-        progreso.completado = True
-        progreso.save()
 
+        # Verificar si se trata de marcar o desmarcar como completado
+        if 'marcar' in request.POST:
+            progreso.completado = True
+            progreso.fecha_completado = timezone.now()
+            calificacion = request.POST.get('calificacion')
+            if calificacion:
+                progreso.calificacion = int(calificacion)
+        elif 'desmarcar' in request.POST:
+            progreso.completado = False
+            progreso.fecha_completado = None
+            progreso.calificacion = None  # Opcional: eliminar calificación si se desmarca
+
+        progreso.save()
         return redirect('ruta_detail', pk=ruta.id)
+
     
 class RutaFavoritasView(ListView):
     model = RutaAprendizaje

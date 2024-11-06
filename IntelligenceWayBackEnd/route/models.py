@@ -1,6 +1,7 @@
 from django.db import models
 from user.models import User
 from django.forms import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class Contenido(models.Model):
     )
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.title} - {self.id}'
     
 class RutaAprendizaje(models.Model):
     title = models.CharField(max_length=100)
@@ -42,15 +43,20 @@ class RutaAprendizaje(models.Model):
     def __str__(self):
         return self.title
 
+
 class ProgresoContenido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     contenido = models.ForeignKey(Contenido, on_delete=models.CASCADE)
     ruta = models.ForeignKey(RutaAprendizaje, on_delete=models.CASCADE)
     completado = models.BooleanField(default=False)
     fecha_completado = models.DateTimeField(null=True, blank=True)
+    calificacion = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        null=True, blank=True
+    )
 
     def __str__(self):
-        return f"{self.usuario.username} - {self.contenido.title} - {'Completado' if self.completado else 'En progreso'}"
+        return f"{self.usuario.nombre} - {self.contenido.title} - {'Completado' if self.completado else 'En progreso'}"
 
 class Reporte(models.Model):
     ERROR_CHOICES = [
