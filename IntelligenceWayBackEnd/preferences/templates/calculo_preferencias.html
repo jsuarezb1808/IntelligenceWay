@@ -2,27 +2,45 @@
 
 {% block content %}
     <div class="container mt-5">
-        <div class="card shadow-sm p-4">
-            <h2 class="mb-4 text-center">Preferencias de Aprendizaje</h2>
+        <div class="card shadow-lg p-5 rounded-4 border-0 bg-light">
+            <h2 class="mb-4 text-center text-primary">Preferencias de Aprendizaje</h2>
             
-            <h4>Tipo de Contenido Preferido</h4>
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Texto: <span class="badge bg-primary">{{ preferencias_contenido.0 }}</span>
+            <h4 class="text-secondary">Tipo de Contenido Preferido</h4>
+            <ul class="list-group mb-4">
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 rounded-3 shadow-sm mb-2">
+                    <span class="fw-bold">Texto:</span> 
+                    <span class="badge bg-primary rounded-pill px-3 py-2">{{ preferencias_contenido.0 }}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Audio: <span class="badge bg-primary">{{ preferencias_contenido.1 }}</span>
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 rounded-3 shadow-sm mb-2">
+                    <span class="fw-bold">Audio:</span> 
+                    <span class="badge bg-primary rounded-pill px-3 py-2">{{ preferencias_contenido.1 }}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Video: <span class="badge bg-primary">{{ preferencias_contenido.2 }}</span>
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 rounded-3 shadow-sm">
+                    <span class="fw-bold">Video:</span> 
+                    <span class="badge bg-primary rounded-pill px-3 py-2">{{ preferencias_contenido.2 }}</span>
                 </li>
             </ul>
             
-            <h4 class="mt-4">Tiempo de Estudio Preferido</h4>
-            <p class="lead">Tiempo: <strong>{{ preferencias_tiempo }}</strong></p>
+            <h4 class="text-secondary">Tiempo de Estudio Preferido</h4>
+            <p class="lead bg-white p-3 rounded-3 shadow-sm">
+                <span class="fw-bold text-primary">Tiempo:</span> 
+                <strong>
+                    {% if preferencias_tiempo == 0 or preferencias_tiempo == 1 %}
+                        Menor a 30 minutos
+                    {% elif preferencias_tiempo == 2 or preferencias_tiempo == 3 %}
+                        Entre 30 y 60 minutos
+                    {% elif preferencias_tiempo == 4 %}
+                        Entre 60 y 90 minutos
+                    {% elif preferencias_tiempo == 5 %}
+                        Entre 90 y 120 minutos
+                    {% else %}
+                        No especificado
+                    {% endif %}
+                </strong>
+            </p>
             
             <div class="text-center mt-4">
-                <a href="{% url 'profile' %}" class="btn btn-primary">Ir a Mi Perfil</a>
+                <a href="{% url 'profile' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">Ir a Mi Perfil</a>
             </div>
         </div>
     </div>

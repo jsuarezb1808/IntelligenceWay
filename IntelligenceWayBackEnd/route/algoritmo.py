@@ -81,8 +81,9 @@ def VerificacionTiempo(curso, usuario):
     print(duracion)
     # Mapear la duración de acuerdo a la preferencia
     if (duracion < 30 and duracion_predilecta <= 1) or \
-       (30 <= duracion < 60 and duracion_predilecta in [2, 3]) or \
-       (90 <= duracion < 120 and duracion_predilecta in [4, 5]):
-        return True
+        (30 <= duracion < 60 and duracion_predilecta in [2, 3]) or \
+        (60 <= duracion < 90 and duracion_predilecta == 4) or \
+        (90 <= duracion < 120 and duracion_predilecta == 5):
+            return True
 
     return False

@@ -16,6 +16,18 @@ class Autor(models.Model):
         return f'{self.nombre}'
     
 class Contenido(models.Model):
+    
+    NIVEL_DIFICULTAD = [
+        (1, 'Introductorio'),
+        (2, 'Principiante-Básico'),
+        (3, 'Principiante-Intermedio'),
+        (4, 'Intermedio'),
+        (5, 'Intermedio-Avanzado'),
+        (6, 'Avanzado'),
+        (7, 'Muy Avanzado'),
+        (8, 'Experto'),
+    ]
+    
     title = models.CharField(max_length=100)
     autor = models.ForeignKey(Autor, default="Autor borrado", on_delete=models.SET_DEFAULT)
     tags = models.ManyToManyField(Tag, default="Tag borrado")
@@ -23,6 +35,7 @@ class Contenido(models.Model):
     tipoDeContenido = models.IntegerField()
     link = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
+    nivel = models.IntegerField(choices=NIVEL_DIFICULTAD)
     contenidosPrevios = models.ManyToManyField('self', blank=True)
     imagen = models.ImageField(
         upload_to='IntelligenceWay/static/contenidos/img/', 

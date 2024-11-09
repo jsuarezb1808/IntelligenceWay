@@ -1,89 +1,133 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load custom_filter %}
 <div class="container mt-5">
-	<div class="card shadow-sm p-4">
-		<h2 class="mb-4 text-center">Responde el test</h2>
-        <form method="post" id="questionForm">
+    <div class="card shadow-lg p-5 rounded-lg border-0" style="background-color: #f9f9fb;">
+        <h2 class="mb-4 text-center text-primary font-weight-bold">Responde el Test</h2>
+        <p class="text-center text-muted">Por favor, responde las siguientes preguntas para completar el test</p>
+        <form method="post" id="questionForm" class="mt-4">
             {% csrf_token %}
-            
-            <!-- Question section -->
-            <div class="question" id="question-1">
-                {{ form.q1.label_tag }} <br>
-                {{ form.q1 }}
+
+            <!-- Question sections, grouped in pairs with added styling -->
+            <div class="question-pair" id="question-pair-1">
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q1.label_tag }}</label><br>
+                    {{ form.q1|add_class:"form-control border-0 shadow-sm" }}
+                </div>
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q2.label_tag }}</label><br>
+                    {{ form.q2|add_class:"form-control border-0 shadow-sm" }}
+                </div>
             </div>
 
-            <div class="question" id="question-2" style="display:none;">
-                {{ form.q2.label_tag }} <br>
-                {{ form.q2 }}
+            <div class="question-pair" id="question-pair-2" style="display:none;">
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q3.label_tag }}</label><br>
+                    {{ form.q3|add_class:"form-control border-0 shadow-sm" }}
+                </div>
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q4.label_tag }}</label><br>
+                    {{ form.q4|add_class:"form-control border-0 shadow-sm" }}
+                </div>
             </div>
 
-            <div class="question" id="question-3" style="display:none;">
-                {{ form.q3.label_tag }} <br>
-                {{ form.q3 }}
+            <div class="question-pair" id="question-pair-3" style="display:none;">
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q5.label_tag }}</label><br>
+                    {{ form.q5|add_class:"form-control border-0 shadow-sm" }}
+                </div>
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q6.label_tag }}</label><br>
+                    {{ form.q6|add_class:"form-control border-0 shadow-sm" }}
+                </div>
             </div>
 
-            <div class="question" id="question-4" style="display:none;">
-                {{ form.q4.label_tag }} <br>
-                {{ form.q4 }}
-            </div>
-
-            <div class="question" id="question-5" style="display:none;">
-                {{ form.q5.label_tag }} <br>
-                {{ form.q5 }}
-            </div>
-
-            <div class="question" id="question-6" style="display:none;">
-                {{ form.q6.label_tag }} <br>
-                {{ form.q6 }}
-            </div>
-
-            <div class="question" id="question-7" style="display:none;">
-                {{ form.q7.label_tag }} <br>
-                {{ form.q7 }}
-            </div>
-
-            <div class="question" id="question-8" style="display:none;">
-                {{ form.q8.label_tag }} <br>
-                {{ form.q8 }}
+            <div class="question-pair" id="question-pair-4" style="display:none;">
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q7.label_tag }}</label><br>
+                    {{ form.q7|add_class:"form-control border-0 shadow-sm" }}
+                </div>
+                <div class="question mb-4 p-3 border rounded shadow-sm" style="background-color: #ffffff;">
+                    <label class="font-weight-bold">{{ form.q8.label_tag }}</label><br>
+                    {{ form.q8|add_class:"form-control border-0 shadow-sm" }}
+                </div>
             </div>
 
             <!-- Navigation buttons -->
             <div class="d-flex justify-content-between mt-3">
-                <button type="button" id="prevBtn" class="btn btn-secondary" onclick="showPrevQuestion()" style="display:none;">Anterior</button>
-                <button type="button" id="nextBtn" class="btn btn-primary" onclick="showNextQuestion()">Siguiente</button>
+                <button type="button" id="prevBtn" class="btn btn-outline-secondary px-4 py-2 font-weight-bold" onclick="showPrevQuestions()" style="display:none;">Anterior</button>
+                <button type="button" id="nextBtn" class="btn btn-primary px-4 py-2 font-weight-bold" onclick="showNextQuestions()">Siguiente</button>
             </div>
 
             <!-- Save button, only visible at the end -->
-            <div class="text-center mt-3" id="saveBtn" style="display:none;">
-                <input class="btn btn-success" type="submit" value="Guardar">
+            <div class="text-center mt-4" id="saveBtn" style="display:none;">
+                <input class="btn btn-success px-5 py-2 font-weight-bold shadow-sm" type="submit" value="Guardar">
             </div>
         </form>
     </div>
 </div>
 
-<script>
-    var currentQuestion = 1;
-    var totalQuestions = 8;  // Changed to 8 questions
+<style>
+    body {
+        background-color: #f0f2f5;
+        font-family: 'Arial', sans-serif;
+    }
 
-    function showNextQuestion() {
-        document.getElementById('question-' + currentQuestion).style.display = 'none';
-        currentQuestion++;
-        document.getElementById('question-' + currentQuestion).style.display = 'block';
+    .card {
+        border-radius: 1rem;
+    }
+
+    h2 {
+        color: #007bff;
+    }
+
+    .question label {
+        color: #333;
+        font-size: 1.1em;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004494;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+</style>
+
+<script>
+    var currentPair = 1;
+    var totalPairs = 4;  // Number of question pairs
+
+    function showNextQuestions() {
+        document.getElementById('question-pair-' + currentPair).style.display = 'none';
+        currentPair++;
+        document.getElementById('question-pair-' + currentPair).style.display = 'block';
         updateButtons();
     }
 
-    function showPrevQuestion() {
-        document.getElementById('question-' + currentQuestion).style.display = 'none';
-        currentQuestion--;
-        document.getElementById('question-' + currentQuestion).style.display = 'block';
+    function showPrevQuestions() {
+        document.getElementById('question-pair-' + currentPair).style.display = 'none';
+        currentPair--;
+        document.getElementById('question-pair-' + currentPair).style.display = 'block';
         updateButtons();
     }
 
     function updateButtons() {
-        // Show/hide navigation buttons
-        document.getElementById('prevBtn').style.display = currentQuestion > 1 ? 'inline-block' : 'none';
-        document.getElementById('nextBtn').style.display = currentQuestion < totalQuestions ? 'inline-block' : 'none';
-        document.getElementById('saveBtn').style.display = currentQuestion == totalQuestions ? 'block' : 'none';
+        document.getElementById('prevBtn').style.display = currentPair > 1 ? 'inline-block' : 'none';
+        document.getElementById('nextBtn').style.display = currentPair < totalPairs ? 'inline-block' : 'none';
+        document.getElementById('saveBtn').style.display = currentPair == totalPairs ? 'block' : 'none';
     }
 </script>
 {% endblock %}

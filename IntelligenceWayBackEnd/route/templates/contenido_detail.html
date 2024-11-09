@@ -36,7 +36,15 @@
                 <img src="{{ contenido.imagen.url }}" alt="{{ contenido.title }}" class="img-fluid rounded" style="width:320px; height: auto;">
             </div>
         </div>
-
+        <div class="text-center">
+            {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
         <!-- Button to show report form -->
         <div class="text-center mt-4">
             <button class="btn btn-outline-danger" onclick="showReportForm()">Reportar problema</button>
@@ -62,7 +70,7 @@
                  <form method="post">
                      {% csrf_token %}
                      {{ form.as_p }}
-                     <button type="submit" class="btn btn-danger">Enviar</button>
+                     <button type="submit" class="btn btn-danger mt-2">Enviar</button>
                      <button type="button" class="btn btn-secondary mt-2" onclick="hideReportForm()">Regresar</button>
                     </div>
             </form>
