@@ -53,6 +53,13 @@ class RutaAprendizaje(models.Model):
     contenidos = models.ManyToManyField(Contenido, through='ProgresoContenido', related_name='rutas')
     completado = models.BooleanField(default=False)
     
+    def get_completado_percentage(self):
+        total_contenidos = self.contenidos.count()
+        contenidos_completados = self.contenidos.filter(progresocontenido__completado=True).count()
+        if total_contenidos == 0:
+            return 0
+        return (contenidos_completados / total_contenidos) * 100
+    
     def __str__(self):
         return self.title
 

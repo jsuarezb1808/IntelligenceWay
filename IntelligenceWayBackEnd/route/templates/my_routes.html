@@ -1,48 +1,109 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Mis Rutas de Aprendizaje</h2>
+
+<div class="container mt-5">
+    <!-- Tarjeta principal con sombra -->
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-5 text-primary">Mis Rutas de Aprendizaje</h2>
+        
+        <!-- Texto descriptivo -->
+        <p class="text-muted text-center mb-4">
+            En esta sección puedes ver todas las rutas de aprendizaje que has creado o que estás siguiendo. 
+            Cada ruta de aprendizaje contiene una serie de contenidos diseñados para ayudarte a adquirir nuevas habilidades y avanzar en tu proceso de aprendizaje.
+        </p>
 
         {% if page_obj %}
             <div class="row">
+                <!-- Lista de Rutas de Aprendizaje -->
                 <div class="col-md-8">
-                    <ul class="list-group">
+                    <ul class="list-group shadow-sm">
                         {% for route in page_obj %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center m-2">
-                                <h5>
-                                    <a href="{% url 'ruta_detail' route.id %}" class="text-decoration-none">{{ route.title }}</a>
-                                </h5>
+                        <a href="{% url 'ruta_detail' route.id %}" class="text-decoration-none text-dark">
+                            <li class="list-group-item d-flex justify-content-between align-items-center mb-1 rounded shadow-sm p-4" 
+                                style="background-color: #f8f9fa;">
+                                <h5 class="mb-0">
+                                    {{ route.title }}
+                                </h5>    
+                                <!-- Barra de progreso en forma de pastel -->
+                                <div class="progress-circle-container text-center">
+                                    <canvas id="progress-chart-{{ route.id }}" width="10" height="10"></canvas>
+                                    <!-- Agregar el porcentaje debajo del gráfico -->
+                                    <div id="progress-percentage-{{ route.id }}" class="mt-2"></div>
+                                </div>
+                                    
+                                <script>
+                                   // Calcular el porcentaje de progreso
+                                    var completed = {{ route.get_completado_percentage|default:0 }};
+                                    var formattedCompleted = completed.toFixed(1); // Limitar a un decimal
+
+                                    var ctx = document.getElementById('progress-chart-{{ route.id }}').getContext('2d');
+                                    var progressChart = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        data: {
+                                            datasets: [{
+                                                data: [completed, 100 - completed],
+                                                backgroundColor: ['#28a745', '#f8f9fa'],
+                                                borderWidth: 0
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            cutout: '60%',  // Ajusta el corte del gráfico
+                                            rotation: 0,  // Asegura que el gráfico empiece desde arriba
+                                            tooltips: {enabled: false},
+                                            legend: {display: false},
+                                            animation: {
+                                                animateRotate: true,
+                                                duration: 1000
+                                            }
+                                        }
+                                    });
+
+                                    // Mostrar el porcentaje debajo del gráfico
+                                    document.getElementById('progress-percentage-{{ route.id }}').innerText = formattedCompleted + '% completado.';
+
+                                </script>
                             </li>
+                        </a>
                         {% endfor %}
                     </ul>
                 </div>
+                
+                <!-- Opciones de Acción -->
                 <div class="col-md-4">
-                    <div class="list-group">
-                        <div class="list-group-item text-center">
-                            <a class="btn btn-secondary" href="{% url 'ruta_favoritas' %}">Ver Favoritas</a>
+                    <div class="list-group shadow-sm">
+                        <div class="list-group-item text-center border-0 rounded mb-2 shadow-sm">
+                            <a class="btn btn-outline-primary w-100" href="{% url 'ruta_favoritas' %}">Ver Favoritas</a>
                         </div>
-                        <div class="list-group-item text-center">
-                            <a class="btn btn-danger" href="{% url 'ruta_eliminar' %}">Eliminar Ruta</a>
+                        <div class="list-group-item text-center border-0 rounded shadow-sm">
+                            <a class="btn btn-outline-danger w-100" href="{% url 'ruta_eliminar' %}">Eliminar Ruta</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Navigation buttons -->
-            <div class="d-flex justify-content-between mt-3">
+            <!-- Botones de Navegación -->
+            <div class="d-flex justify-content-between align-items-center mt-4">
                 {% if page_obj.has_previous %}
-                    <a class="btn btn-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                    <a class="btn btn-outline-secondary" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% else %}
+                    <span></span>
                 {% endif %}
+                <span class="text-muted">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
                 {% if page_obj.has_next %}
-                    <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+                    <a class="btn btn-outline-primary" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
                 {% endif %}
             </div>
         {% else %}
-            <div class="alert alert-info text-center mt-4" role="alert">
-                <p>No tienes rutas de aprendizaje aún.</p>
+            <div class="alert alert-info text-center mt-5" role="alert">
+                <p class="mb-3">No tienes rutas de aprendizaje aún.</p>
                 <a class="btn btn-success" href="{% url 'crear_ruta' %}">Crear una Ruta de Aprendizaje</a>
             </div>
         {% endif %}
     </div>
+</div>
+
+<!-- Agregar los íconos de Font Awesome y Chart.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 {% endblock %}

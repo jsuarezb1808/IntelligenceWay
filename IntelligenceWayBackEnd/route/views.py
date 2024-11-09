@@ -94,13 +94,35 @@ class CreateRoute(View, LoginRequiredMixin):
             return render(request, self.template_name, viewData)
 class MyRoutes(ListView):
     model = RutaAprendizaje
-    template_name = 'my_routes.html'  # Change this to the path to your template
+    template_name = 'my_routes.html'  # Cambia esto al nombre correcto de tu template
     context_object_name = 'routes'
-    paginate_by = 4  # Number of routes per page
+    paginate_by = 4  # Número de rutas por página
 
     def get_queryset(self):
-        # Filter the routes of the current user
-        return RutaAprendizaje.objects.filter(usuario=self.request.user)  # Make sure to filter by user
+        # Filtra las rutas del usuario actual
+        return RutaAprendizaje.objects.filter(usuario=self.request.user)  # Asegúrate de filtrar por el usuario
+
+    def get_context_data(self, **kwargs):
+        # Obtén el contexto base
+        context = super().get_context_data(**kwargs)
+        
+        # Calcula el porcentaje completado para cada ruta
+        for route in context['routes']:
+            # Contar los contenidos totales y completados en la ruta
+            total_contenidos = route.contenidos.count()
+            contenidos_completados = route.progresocontenido_set.filter(completado=True).count()
+            
+            # Si hay contenidos, calcular el porcentaje de completado
+            if total_contenidos > 0:
+                porcentaje_completado = (contenidos_completados / total_contenidos) * 100
+            else:
+                porcentaje_completado = 0  # Si no hay contenidos, el progreso es 0
+
+            # Añadir el porcentaje calculado al contexto
+            route.porcentaje_completado = porcentaje_completado
+
+        return context
+
 
 class RutaDetail(LoginRequiredMixin, DetailView):
     model = RutaAprendizaje
