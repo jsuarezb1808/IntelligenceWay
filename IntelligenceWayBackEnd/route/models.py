@@ -20,7 +20,11 @@ class Contenido(models.Model):
     autor = models.ForeignKey(Autor, default="Autor borrado", on_delete=models.SET_DEFAULT)
     tags = models.ManyToManyField(Tag, default="Tag borrado")
     duracion = models.IntegerField()
-    tipoDeContenido = models.IntegerField()
+    tipoDeContenido = models.IntegerField(choices=[
+        (1, 'Video'),
+        (2, 'Texto'),
+        (3, 'Audio'),
+    ])
     link = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     contenidosPrevios = models.ManyToManyField('self', blank=True)
