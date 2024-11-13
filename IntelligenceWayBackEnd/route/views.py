@@ -83,6 +83,9 @@ class CreateRoute(View, LoginRequiredMixin):
                    VerificacionTiempo(curso, User.objects.get(id=user.id)):
                     contenidos_validos.append(curso)
             
+            # Ordena los contenidos válidos por nivel de dificultad de manera incremental
+            contenidos_validos.sort(key=lambda x: x.nivel)
+
             nombreTag = Tag.objects.get(id=interes).tagName
 
             # Crea la nueva ruta de aprendizaje
@@ -105,6 +108,8 @@ class CreateRoute(View, LoginRequiredMixin):
             return redirect("my_routes")
         else:
             return render(request, self.template_name, viewData)
+
+        
 class MyRoutes(ListView):
     model = RutaAprendizaje
     template_name = 'my_routes.html'

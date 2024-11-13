@@ -26,6 +26,9 @@
                 <p><strong>Enlace:</strong> 
                     <a href="{{ contenido.link }}" target="_blank" class="text-decoration-underline text-info">{{ contenido.link }}</a>
                 </p>
+
+                <!-- Nivel de dificultad -->
+                <p><strong>Nivel de Dificultad:</strong> {{ contenido.get_nivel_display }}</p>
                 
                 <!-- Etiquetas -->
                 {% if contenido.tags.all %}
