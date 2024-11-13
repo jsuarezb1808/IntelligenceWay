@@ -2,6 +2,7 @@ from django.db import models
 from user.models import User
 from django.forms import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 # Create your models here.
 
@@ -74,8 +75,32 @@ class ProgresoContenido(models.Model):
         null=True, blank=True
     )
 
+    def save(self, *args, **kwargs):
+        # Guardamos el estado actual del campo completado antes de cambiarlo
+        estado_anterior = None
+        if self.pk:
+            estado_anterior = ProgresoContenido.objects.get(pk=self.pk).completado
+
+        # Si el contenido se marca como completado y antes no estaba completado
+        if self.completado and estado_anterior is not True:
+            self.fecha_completado = self.fecha_completado or timezone.now()
+            ProgresoContenido.objects.filter(
+                usuario=self.usuario,
+                contenido=self.contenido
+            ).update(completado=True, fecha_completado=self.fecha_completado)
+
+        # Si el contenido se desmarca como completado y antes estaba completado
+        elif not self.completado and estado_anterior is True:
+            ProgresoContenido.objects.filter(
+                usuario=self.usuario,
+                contenido=self.contenido
+            ).update(completado=False, fecha_completado=None)
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.usuario.nombre} - {self.contenido.title} - {'Completado' if self.completado else 'En progreso'}"
+
 
 class Reporte(models.Model):
     ERROR_CHOICES = [

@@ -4,7 +4,7 @@ body {
     margin: 0;
     /*background-color: #EDF2F4; /* Fondo principal (gris claro) */
     color: #2B2D42; /* Color de texto principal */
-    background: linear-gradient(to bottom, rgb(15, 162, 167), rgba(255, 255, 255, 0.712));
+    background: linear-gradient(to bottom, rgb(15, 162, 167), rgba(0, 0, 0, 0.712));
     height: 100%;
     margin: 0;
 }
