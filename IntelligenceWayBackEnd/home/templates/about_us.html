@@ -1,0 +1,30 @@
+<!-- IntelligenceWayBackEnd/home/templates/about_us.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{% static 'img/logo.png' %}" alt="Intelligence Way Logo" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2>About Us</h2>
+            <p style="font-size: 1.2em; font-weight: bold;">
+                Bienvenido a Intelligence Way. Somos una plataforma dedicada a proporcionar rutas de aprendizaje personalizadas para mejorar tus habilidades y conocimientos. Nuestro objetivo es ayudarte a alcanzar tus metas educativas de manera eficiente y efectiva.
+            </p>
+            <p style="font-size: 1.2em; font-weight: bold;">
+                En Intelligence Way, creemos que cada persona tiene un camino único hacia el aprendizaje. Por eso, ofrecemos herramientas y recursos adaptados a tus necesidades individuales. Ya sea que estés buscando mejorar tus habilidades profesionales o aprender algo nuevo por diversión, estamos aquí para apoyarte en cada paso del camino.
+            </p>
+            <p style="font-size: 1.2em; font-weight: bold;">
+                Para más información, visita nuestro repositorio en GitHub.
+            </p>
+            <p>
+                <a href="https://github.com/jsuarezb1808/IntelligenceWay" target="_blank">
+                    <img src="{% static 'img/github-logo.png' %}" alt="GitHub Logo" style="width: 150px;">
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
