@@ -13,12 +13,25 @@ from django.views.generic.edit import FormMixin
 from .forms import ReporteForm
 from django.urls import reverse
 from django.utils import timezone
+import os, random
+from django.conf import settings
+
 
 class ContenidoDetailView(FormMixin, DetailView):
     model = Contenido
     template_name = 'contenido_detail.html'
     context_object_name = 'contenido'
     form_class = ReporteForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        random_image_path = os.path.join(settings.STATIC_ROOT, 'img', 'random')
+        if os.path.exists(random_image_path) and os.listdir(random_image_path):
+            random_image = random.choice(os.listdir(random_image_path))
+            context['random_image'] = os.path.join(settings.STATIC_URL, 'img', 'random', random_image)
+        else:
+            context['random_image'] = None  # O manejar el caso donde no hay imágenes en la carpeta
+        return context
 
     def get_success_url(self):
         # Redirect to the same page after submitting the report
@@ -94,7 +107,7 @@ class CreateRoute(View, LoginRequiredMixin):
             return render(request, self.template_name, viewData)
 class MyRoutes(ListView):
     model = RutaAprendizaje
-    template_name = 'my_routes.html'  # Cambia esto al nombre correcto de tu template
+    template_name = 'my_routes.html'
     context_object_name = 'routes'
     paginate_by = 4  # Número de rutas por página
 
@@ -150,7 +163,7 @@ class RutaDetail(LoginRequiredMixin, DetailView):
         favorito = Favorito.objects.filter(usuario=self.request.user).first()
         idRuta = self.get_object().id
         ruta_actual = RutaAprendizaje.objects.get(id=idRuta)
-        if ruta_actual in favorito.lista.all():
+        if favorito and ruta_actual in favorito.lista.all():
             # Verificar si el contenido está en los favoritos
             contenido_en_favoritos = True
         else:

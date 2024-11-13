@@ -1,0 +1,49 @@
+body {
+    background-color: #1E1E1E;
+}
+/* Style for the form container */
+form {
+    background-color: #232858; /* Dark background for the form */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+/* Button styles */
+.btn-custom {
+    background-color: #D4AF37; /* Golden color */
+    color: #3059E3; /* Royal blue */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    background-color: #B8860B; /* Darker gold on hover */
+}
+
+/* Style for the form fields */
+input, select {
+    background-color: #1E1E1E; /* Background for the fields */
+    color: white; /* White text */
+    border: 1px solid #6C757D; /* Gray border */
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+input:focus, select:focus {
+    border-color: #D4AF37; /* Golden border on focus */
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.8);
+}
+
+/* Title */
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
