@@ -307,4 +307,4 @@ class OtorgarMedallaView(LoginRequiredMixin, View):
             messages.error(request, "Debes completar todos los contenidos para recibir la medalla.")
         
         # Redirigir de vuelta a la vista de detalle de la ruta
-        return redirect('ruta_detail', pk=ruta_id)
+        return redirect('profile')
