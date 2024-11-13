@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import InteresForm
 from .models import Contenido, RutaAprendizaje, Tag, Favorito, ProgresoContenido
+from account.models import Medalla
 from .algoritmo import VerificacionContenido, VerificacionTiempo
 from user.models import User
 from django.shortcuts import redirect, get_object_or_404
@@ -142,6 +143,10 @@ class MyRoutes(ListView):
         return context
 
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DetailView
+from .models import RutaAprendizaje, ProgresoContenido, Favorito
+
 class RutaDetail(LoginRequiredMixin, DetailView):
     model = RutaAprendizaje
     template_name = 'ruta_detail.html'
@@ -149,6 +154,7 @@ class RutaDetail(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         # Agregar los contenidos de la ruta al contexto
         context['contenidos'] = self.object.contenidos.all()
         
@@ -163,6 +169,10 @@ class RutaDetail(LoginRequiredMixin, DetailView):
                 progreso_dict[contenido.id] = False  # Si no hay progreso, se considera no completado
         
         context['progreso_dict'] = progreso_dict
+
+        # Verificar si todos los contenidos están completados
+        todos_completados = all(progreso_dict.get(contenido.id, False) for contenido in context['contenidos'])
+        context['todos_completados'] = todos_completados  # Agregar la variable al contexto
 
         # Verificar si el usuario tiene un favorito
         favorito = Favorito.objects.filter(usuario=self.request.user).first()
@@ -271,3 +281,30 @@ class AgregarAFavoritosView(View):
         # Redirigir de nuevo a la misma página de detalle de ruta
         return redirect('ruta_detail', pk=ruta_id)
 
+class OtorgarMedallaView(LoginRequiredMixin, View):
+    def get(self, request, ruta_id, *args, **kwargs):
+        # Obtener la ruta de aprendizaje
+        ruta = get_object_or_404(RutaAprendizaje, id=ruta_id)
+        
+        # Verificar que el usuario haya completado todos los contenidos de la ruta
+        contenidos = ruta.contenidos.all()
+        progreso_completo = all(
+            ProgresoContenido.objects.filter(usuario=request.user, contenido=contenido, completado=True).exists()
+            for contenido in contenidos
+        )
+
+        # Si todos los contenidos están completados, otorgar la medalla
+        if progreso_completo:
+            # Verificar si el usuario ya tiene una medalla para esta ruta
+            medalla_existente = Medalla.objects.filter(usuario=request.user, ruta=ruta).exists()
+            if not medalla_existente:
+                # Crear la medalla
+                Medalla.objects.create(usuario=request.user, ruta=ruta)
+                messages.success(request, "¡Felicidades! Has completado la ruta y se te ha otorgado una medalla.")
+            else:
+                messages.info(request, "Ya has recibido una medalla para esta ruta.")
+        else:
+            messages.error(request, "Debes completar todos los contenidos para recibir la medalla.")
+        
+        # Redirigir de vuelta a la vista de detalle de la ruta
+        return redirect('ruta_detail', pk=ruta_id)

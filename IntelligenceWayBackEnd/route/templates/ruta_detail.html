@@ -55,7 +55,11 @@
                 <li class="list-group-item text-center">No hay contenidos en esta ruta de aprendizaje.</li>
             {% endfor %}
         </ul>
-
+        {% if todos_completados %}
+            <div class="text-center mt-4">
+                <a href="{% url 'otorgar_medalla' route.id %}" class="btn btn-success">Otorgar Medalla</a>
+            </div>
+        {% endif %}
         <a href="{% url 'my_routes' %}" class="btn btn-outline-primary mt-4">Volver a Mis Rutas</a>
     </div>
 </div>

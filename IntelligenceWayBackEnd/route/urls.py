@@ -11,4 +11,5 @@ urlpatterns = [
     path('my-routes/delete/confirm/', views.RutaConfirmarEliminarView.as_view(), name='ruta_confirmar_eliminar'),
     path('contenido/<int:pk>/', views.ContenidoDetailView.as_view(), name='contenido_detail'),
     path('my-routes/<int:ruta_id>/addfavorito/', views.AgregarAFavoritosView.as_view(), name='agregar_a_favoritos'),
+    path('my-routes/<int:ruta_id>/otorgar_medalla/', views.OtorgarMedallaView.as_view(), name='otorgar_medalla')
 ]
