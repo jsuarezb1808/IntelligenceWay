@@ -40,7 +40,6 @@ class Contenido(models.Model):
     imagen = models.ImageField(
         upload_to='IntelligenceWay/static/contenidos/img/', 
         null=True, blank=True, 
-        default='IntelligenceWay/static/contenidos/img/default_image.jpg'
     )
 
     def __str__(self):

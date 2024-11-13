@@ -1,0 +1,26 @@
+/* Ocultar los radio buttons */
+.rating input {
+    display: none;
+}
+
+/* Estilos de las estrellas */
+.rating label {
+    color: lightgray;
+    font-size: 2rem;
+    padding: 0;
+    cursor: pointer;
+}
+
+.rating input:checked ~ label {
+    color: gold;
+}
+
+.rating input:hover ~ label,
+.rating input:focus ~ label {
+    color: gold;
+}
+
+.rating label:hover,
+.rating label:focus {
+    color: gold;
+}
