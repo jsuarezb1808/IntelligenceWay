@@ -1,6 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from preferences.models import ModeloAprendizajeUsuario
+from route.models import RutaAprendizaje
+
+
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'profile.html'
@@ -11,4 +14,10 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         usuario = self.request.user
         context['user'] = usuario  # Pass the authenticated user to the template
         context['test'] = ModeloAprendizajeUsuario.objects.get(usuario=usuario)
+        
+        
+        
+        resultados_tests = ModeloAprendizajeUsuario.objects.filter(usuario=usuario)
+        context['resultados_tests'] = resultados_tests
+        
         return context

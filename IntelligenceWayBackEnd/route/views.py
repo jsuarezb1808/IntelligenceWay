@@ -107,7 +107,7 @@ class CreateRoute(View, LoginRequiredMixin):
             return render(request, self.template_name, viewData)
 class MyRoutes(ListView):
     model = RutaAprendizaje
-    template_name = 'my_routes.html'  # Cambia esto al nombre correcto de tu template
+    template_name = 'my_routes.html'
     context_object_name = 'routes'
     paginate_by = 4  # Número de rutas por página
 
