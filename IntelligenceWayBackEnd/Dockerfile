@@ -1,12 +1,12 @@
 # Usa una imagen base de Python
-FROM python:3.10-slim
+FROM python
  
 # Establece el directorio de trabajo en el contenedor
 WORKDIR /app
  
 # Copia los archivos de requisitos
 COPY requirements.txt /app/
- 
+
 # Instala los requisitos
 RUN pip install --no-cache-dir -r requirements.txt
  
