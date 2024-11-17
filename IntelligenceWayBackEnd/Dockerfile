@@ -10,6 +10,9 @@ COPY requirements.txt /app/
 # Instala los requisitos
 RUN pip install --no-cache-dir -r requirements.txt
  
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 # Copia el resto de los archivos de la aplicación al contenedor
 COPY . /app/
  
